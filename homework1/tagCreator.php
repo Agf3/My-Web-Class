@@ -51,10 +51,10 @@ else {
 </head>
 <body onLoad="javascript:hideOnLoad()";>
 <div id="all" align="center">
-<form name="Tag Creation" action="createTags.php">
+<form action="createTags.php" method="post" name="Tag Creation">
 <h1>PLEASE CHOOSE YOUR TAG TYPE</h1>
 <div id="tag">
-<select id="Tag Selection" onchange="javascript:displayFields()">
+<select name="tagSelect" id="Tag Selection" onchange="javascript:displayFields()">
 <option value="doctype">Doctype</option>
 <option value="javascript">Javascript file link</option>
 <option value="css">CSS file link</option>
@@ -65,7 +65,7 @@ else {
 </div>
 <div id="chooseHeader">
 <h3>Choose your header type:</h3>
-<select name = "header selection">
+<select name = "headerSelect">
 <option value="h1">Header 1</option>
 <option value="h2">Header 2</option>
 <option value="h3">Header 3</option>
@@ -76,13 +76,13 @@ else {
 </div>
 <br/>
 <div id="chooseJavascript">
-<h3>Enter the location of the javascript file:</h3><input name="javascript link" type="text" size="50" /><br/>
+<h3>Enter the location of the javascript file:</h3><input name="javascriptLink" type="text" size="50" /><br/>
 </div>
 <div id="chooseCSS">
-<h3>Enter the location of the CSS file:</h3><input name="css link" type="text" size="50" /><br/>
+<h3>Enter the location of the CSS file:</h3><input name="cSSLink" type="text" size="50" /><br/>
 </div>
 <div id="headerText">
-<h3>Enter your desired texts:</h3><input name="javascript link" type="text" size="50" /><br/>
+<h3>Enter your desired texts:</h3><input name="headerText" type="text" size="50" /><br/>
 </div>
 <input name="Submit" type="submit" value="Create Tag" />
 </form>
