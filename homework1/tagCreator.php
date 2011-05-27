@@ -82,7 +82,7 @@ else {
 <h3>Enter the location of the CSS file:</h3><input name="css link" type="text" size="50" /><br/>
 </div>
 <div id="headerText">
-<h3>Enter your desired text:</h3><input name="javascript link" type="text" size="50" /><br/>
+<h3>Enter your desired texts:</h3><input name="javascript link" type="text" size="50" /><br/>
 </div>
 <input name="Submit" type="submit" value="Create Tag" />
 </form>
