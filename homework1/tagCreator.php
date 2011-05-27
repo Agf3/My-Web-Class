@@ -55,23 +55,23 @@ else {
 <h1>PLEASE CHOOSE YOUR TAG TYPE</h1>
 <div id="tag">
 <select id="Tag Selection" onchange="javascript:displayFields()">
-<option name = "doctype" value="doctype">Doctype</option>
-<option name = "javascript" value="javascript">Javascript file link</option>
-<option name = "css" value="css">CSS file link</option>
-<option name = "body" value="body">Body tag</option>
-<option name = "html" value="html">HTML tag</option>
+<option value="doctype">Doctype</option>
+<option value="javascript">Javascript file link</option>
+<option value="css">CSS file link</option>
+<option value="body">Body tag</option>
+<option value="html">HTML tag</option>
 <option value="header">Font Header tag</option>
 </select>
 </div>
 <div id="chooseHeader">
 <h3>Choose your header type:</h3>
 <select name = "header selection">
-<option name = "h1" value="h1">Header 1</option>
-<option name = "h2" value="h2">Header 2</option>
-<option name = "h3" value="h3">Header 3</option>
-<option name = "h4" value="h4">Header 4</option>
-<option name = "h5" value="h5">Header 5</option>
-<option name = "h6" value="h6">Header 6</option>
+<option value="h1">Header 1</option>
+<option value="h2">Header 2</option>
+<option value="h3">Header 3</option>
+<option value="h4">Header 4</option>
+<option value="h5">Header 5</option>
+<option value="h6">Header 6</option>
 </select>
 </div>
 <br/>
