@@ -55,7 +55,7 @@ else {
 <h1>PLEASE CHOOSE YOUR TAG TYPE</h1>
 <div id="tag">
 <select name="tagSelect" id="Tag Selection" onchange="javascript:displayFields()">
-<option value="doctype">Doctype</option>
+<option value="DOCTYPE">Doctype</option>
 <option value="javascript">Javascript file link</option>
 <option value="css">CSS file link</option>
 <option value="body">Body tag</option>
