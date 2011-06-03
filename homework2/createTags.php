@@ -8,7 +8,12 @@
 <body>
 <?php
 
-$tag = new Tag("br", "testAttribute", "testContent");
+$tagType = "h1";
+$attributes = array("align" => "center", "event" => "onblur", "color"
+=> "blue"); 
+$content = "test";
+
+$tag = new Tag($tagType, $attributes, $content);
 echo $tag->get_tag();
 /*Used for testing Purposes*/
 /*

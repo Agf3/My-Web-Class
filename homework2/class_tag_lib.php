@@ -31,11 +31,17 @@ class Tag{
     //echo $validate;
   
     $tagOutput = "&lt".$tagType;
+
+    /*Creates the section for the attributes*/ 
+    foreach($tagAttributes as $key => $value){
+      $tagAttributesOutput .= " ".$key."=&#039".$value."&#039";
+    }
+   
   
     /*Determines the type of tag to create based on validation function*/  
     switch($validate){
     case 'Normal':
-      $tagOutput .= "&gt&lt/".$tagType."&gt";
+      $tagOutput .= $tagAttributesOutput."&gt".$tagContent."&lt/".$tagType."&gt";
       break;
     case 'Special':
       $tagOutput .= "/&gt";
