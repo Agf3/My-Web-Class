@@ -18,7 +18,7 @@ class Tag{
     $this->type = $tagType;
     $this->attributes = $tagAttributes;
     $this->content = $tagContent;
-    
+
     $this->set_tag($tagType, $tagAttributes, $tagContent);
     
   }
@@ -26,32 +26,37 @@ class Tag{
   
   /*The function that actually creates the tag. Uses a validator to make sure that the type of tag is supported*/
   function set_tag($tagType, $tagAttributes, $tagContent){
-    
-    $validate = $this->tag_validation($tagType);
-    //echo $validate;
-  
-    $tagOutput = "&lt".$tagType;
 
-    /*Creates the section for the attributes*/ 
-    foreach($tagAttributes as $key => $value){
-      $tagAttributesOutput .= " ".$key."=&#039".$value."&#039";
-    }
-   
-  
-    /*Determines the type of tag to create based on validation function*/  
-    switch($validate){
-    case 'Normal':
-      $tagOutput .= $tagAttributesOutput."&gt".$tagContent."&lt/".$tagType."&gt";
-      break;
-    case 'Special':
-      $tagOutput .= "/&gt";
-      break;
+    if($this->attribute_validation($tagAttributes)){
+      $validate = $this->tag_validation($tagType);
+      //echo $validate;
+      
+      $tagOutput = "&lt".$tagType;
+      
+      /*Creates the section for the attributes*/ 
+      foreach($tagAttributes as $key => $value){
+	$tagAttributesOutput .= " ".$key."=&#039".$value."&#039";
+      }
+      
+      
+      /*Determines the type of tag to create based on validation function*/  
+      switch($validate){
+      case 'Normal':
+	$tagOutput .= $tagAttributesOutput."&gt".$tagContent."&lt/".$tagType."&gt";
+	break;
+      case 'Special':
+	$tagOutput .= "/&gt";
+	break;
+      }
+      
+      $this->fullTag = $tagOutput;//'&lt;'.$tagType."&gt;&lt;/".$tagType."&gt;";
     }
     
-    $this->fullTag = $tagOutput;//'&lt;'.$tagType."&gt;&lt;/".$tagType."&gt;";
-    
+    else {
+      echo "Error could not proceed due to error in attributes";
+    }
   }
-  
+    
   /*Determines what type of tag the user has chosen. Also will display error if not a supported tag*/
   function tag_validation($tagType){
     
@@ -75,6 +80,21 @@ class Tag{
     
     return $tag;
   }
+
+  /*Makes sure that the attributes being added are valid strings*/
+  function attribute_validation($attribute){
+
+    /*Checks each attribute individually to make sure it is a valid string*/
+    foreach ($attribute as $value){
+    
+      if(!is_string($value)){
+	  return false;
+    }
+
+	return true;
+	
+    }
+  }
   
   function get_tag(){
     return $this->fullTag;
@@ -94,56 +114,5 @@ class Tag{
   
 }
 
-/*
-class Doctype extends Tag{
 
-function __construct($tagType){
-	
-	$this->type = $tagType;
-
-}
-
-function set_tag($tagType){
-	
-	$this->fullTag = '&lt;'.$tagType." html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;";
-
-}
-
-
-}
-
-class Link extends Tag{
-
-function __construct($tagType){
-	
-	$this->type = $tagType;
-
-}
-
-function set_tag($tagType, $link){
-	
-	if($tagType == 'javascript'){
-		$this->fullTag = "&lt;script type=&quot;text/javascript&quot; src=&quot;".$link."&quot;&gt;&lt;/script&gt;";
-	}
-	
-	else if($tagType == 'css'){
-		$this->fullTag = "&lt;LINK href=&quot;".$link."&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;";
-	}
-}
-}
-
-class Header extends Tag{
-	
-	function __construct($tagType){
-		
-		$this->type = $tagType;
-		
-	}
-	
-	function set_tag($headerType, $text){
-		
-		$this->fullTag = "&lt;".$headerType."&gt;".$text."&lt;/".$headerType."&gt;";
-	}
-	
-	}*/
 ?>
