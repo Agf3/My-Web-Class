@@ -8,13 +8,34 @@
 <body>
 <?php
 
-$tagType = "h1";
-$attributes = array("align" => "center", "event" => "onblur", "color"
-=> "blue"); 
-$content = "test";
+$tagType = $_POST['tag'];
+$content = $_POST['content'];
+$attribute1 = $_POST['attribute1'];
+$attributeValue1 = $_POST['value1'];
+$attribute2 = $_POST['attribute2'];
+$attributeValue2 = $_POST['value2'];
+$attribute3 = $_POST['attribute3'];
+$attributeValue3 = $_POST['value3'];
 
+
+/*Creates an array then checks to make sure the values exist before
+adding them to the array*/
+$attributes = array();
+
+if($attribute1 != ''){
+$attributes[$attribute1] = $attributeValue1;
+}
+if($attribute2 != ''){
+$attributes[$attribute2] = $attributeValue2;
+}
+if($attribute3 != ''){
+$attributes[$attribute3] = $attributeValue3;
+}
+
+/*Creates the tag*/
 $tag = new Tag($tagType, $attributes, $content);
 echo $tag->get_tag();
+
 /*Used for testing Purposes*/
 /*
 echo $tag->get_tag_type()."\n";

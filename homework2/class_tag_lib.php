@@ -27,9 +27,10 @@ class Tag{
   /*The function that actually creates the tag. Uses a validator to make sure that the type of tag is supported*/
   function set_tag($tagType, $tagAttributes, $tagContent){
 
-    if($this->attribute_validation($tagAttributes)){
-      $validate = $this->tag_validation($tagType);
-      //echo $validate;
+    $validate = $this->tag_validation($tagType);
+
+    /*Check to make sure that the tag type & attributes are valid*/
+    if($this->attribute_validation($tagAttributes) && ($validate!='Error')){
       
       $tagOutput = "&lt".$tagType;
       
@@ -49,17 +50,13 @@ class Tag{
 	break;
       }
       
-      $this->fullTag = $tagOutput;//'&lt;'.$tagType."&gt;&lt;/".$tagType."&gt;";
-    }
-    
-    else {
-      echo "Error could not proceed due to error in attributes";
+      $this->fullTag = $tagOutput;
     }
   }
-    
+  
   /*Determines what type of tag the user has chosen. Also will display error if not a supported tag*/
-  function tag_validation($tagType){
-    
+  function tag_validation($tagType){    
+ 
     $validTags = array("!DOCTYPE", "a", "address", "article", "blockquote", "body", "br", "detail", "dfn", "div", "dl", "dt", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "HTML", "li", "link", "menu", "meta", "nav", "ol", "p", "section", "span", "style", "summary", "title", "ul");
     $specialTags = array("!DOCTYPE", "br", "link", "meta");
     
@@ -76,6 +73,7 @@ class Tag{
     /*Error handling for invalid tags*/
 	else{
 	  $tag = 'Error';
+	  echo "Sorry ".$tagType." is not a valid tag";
 	}
     
     return $tag;
@@ -88,6 +86,7 @@ class Tag{
     foreach ($attribute as $value){
     
       if(!is_string($value)){
+	echo "Sorry ".$value." is not a valid attribute";
 	  return false;
     }
 
