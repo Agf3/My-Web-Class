@@ -44,6 +44,9 @@ echo $tag->get_tag_content()."\n";
 */
 ?>
 <br/><br/>
-<a href="tagCreator.php">Create another tag</a>
+<a href="tagCreator.php">Create another tag</a><br/>
+<a
+href="http://www.mywebclass.org/~afigueroa/My-Web-Class/homework2/errors/errorLog.txt">Click
+here to see an error log</a>
 </body>
 </html>

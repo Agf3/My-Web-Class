@@ -2,7 +2,9 @@
 /*
  *PHP Library used for creating HTML tags
  *Created by Alex Figueroa
- */
+*/
+
+include("class_filehandler_lib.php");
 
 class Tag{
 
@@ -14,7 +16,7 @@ class Tag{
   
   /*Automatically creates the tag based on the given parameters*/
   function __construct($tagType, $tagAttributes, $tagContent){
-    
+
     $this->type = $tagType;
     $this->attributes = $tagAttributes;
     $this->content = $tagContent;
@@ -71,28 +73,46 @@ class Tag{
     }
     
     /*Error handling for invalid tags*/
-	else{
-	  $tag = 'Error';
-	  echo "Sorry ".$tagType." is not a valid tag";
-	}
+    else{
+      $tag = 'Error';
+      $errorMessage = "Sorry ".$tagType." is not a valid tag";
+      echo $errorMessage;
+      echo "\n";
+      
+      $directory = getcwd();
+      $errorLog = new ErrorFileHandler($directory);
+      $errorLog->add_to_error_log($errorMessage);
+}
     
     return $tag;
   }
 
   /*Makes sure that the attributes being added are valid strings*/
   function attribute_validation($attribute){
-
+    
     /*Checks each attribute individually to make sure it is a valid string*/
     foreach ($attribute as $value){
-    
-      if(!is_string($value)){
-	echo "Sorry ".$value." is not a valid attribute";
-	  return false;
+      
+      $numbers = '0123456789';
+      
+      /*Checks to make sure the value is a string and that there are no numbers contained in the string*/
+      if(!is_string($value) || (strcspn($value, $numbers) != strlen($value))){
+	
+	//echo "strcspn:".strcspn($value, $numbers)."  strlen:".strlen($value);
+	$errorMessage = "Sorry ".$value." is not a valid attribute";
+	echo $errorMessage;
+	echo "\n";
+	
+	$directory = getcwd();
+	$errorLog = new ErrorFileHandler($directory);
+	$errorLog->add_to_error_log($errorMessage);
+	
+	return false;
+	
+      }	
     }
 
-	return true;
-	
-    }
+    return true;
   }
   
   function get_tag(){
