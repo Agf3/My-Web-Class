@@ -14,8 +14,8 @@ class FileHandler{
   /*Creates a directory and log file of the users choosing*/
   function __construct($log, $directory, $file){
 
-    if(!($this->directory_found($log."/".$directory))){
-      $this->create_directory($directory);
+    if(!file_exists($log."/".$directory)){
+      mkdir($directory);
     }
     
     $this->fileName = $file;
@@ -25,8 +25,8 @@ class FileHandler{
   } 
  
 
-
- 
+  
+  
   /*Opens the file created by the constructor and logs action with date and time*/
   function add_to_log($message){
     
@@ -34,7 +34,7 @@ class FileHandler{
     $file = fopen($this->fullFileLocation ,"a+");
     fwrite($file, $timeStamp." ".$message."\n");
     fclose($file); 
-
+    
   }
 
 
@@ -86,23 +86,23 @@ class FileHandler{
     }
     
   }
-
+  
   
   
   
   /*Checks to see if you can write to a specified directory*/
   function directory_writable($directory){
     
-    if(!is_writable($directory)){
-      $message = "Error (".$directory.") is not writeable";
-      $this->add_to_log($message);
-      return false;
-    }
-    
-    else{
+    if(is_writable($directory)){
       $message = "Success (".$directory.") is writeable";
       $this->add_to_log($message);
       return true;
+    }
+    
+    else{
+      $message = "Error (".$directory.") is not writeable";
+      $this->add_to_log($message);
+      return false;     
     }
     
   }
@@ -148,7 +148,7 @@ class FileHandler{
     if($this->file_found($file)){
       unlink($file);
       
-      /*Verifies that the file has been deleted by searching for it again. Uses default file found method in order to not produce an innacurate log*/ 
+      /*Verifies that the file has been deleted by searching for it again. Uses file_exists in order to not produce an innacurate log*/ 
       if(!file_exists($file)){
 	$message = "Success (".$file.") has been deleted";
 	$this->add_to_log($message);
@@ -182,40 +182,41 @@ class FileHandler{
 	$message = "Error: (".$directory.") could not be created";
 	return false;
       }
-      
-      else{
-	$message = "Error: Can't create (".$directory.") as it already exists";
-	return false;      
-      }
     }
     
+    else{
+      $message = "Error: Can't create (".$directory.") as it already exists";
+      return false;      
+    }
   }
-
+  
   /*Writes the contents of an array to a file*/
   function array_to_file($file, $content){
     
     if($this->file_found($file)){
-	
-	$file = fopen($file ,"a+");
-	$message = "Success: Opened (".$file.")";
-	$this->add_to_log($message);
-	
-	/*Takes each value in the array and adds it to the opened file*/
-	foreach($content as $value){
-	  fwrite($file, $value."\n");
-	  $message = "Success: (".$value.") has been added to (".$file.")";
-	  $this->add_to_log($message);    
-	}
-	
-	fclose($file);
-	$message = "Success: (".$file.") has been closed";
-	return true;
+      
+      $file = fopen($file ,"a+");
+      $message = "Success: Opened (".$file.")";
+      $this->add_to_log($message);
+      
+      /*Takes each value in the array and adds it to the opened file*/
+      foreach($content as $value){
+	fwrite($file, $value."\n");
+	$message = "Success: (".$value.") has been added to (".$file.")";
+	$this->add_to_log($message);    
+      }
+      
+      fclose($file);
+      $message = "Success: (".$file.") has been closed";
+      return true;
     }
-
+    
     else{
       return false;
     }
+  
   }
+  
   
   /*A list of getter functions*/
   function get_file_name(){
