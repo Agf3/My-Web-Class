@@ -5,83 +5,70 @@
  *Created by Alex Figueroa
 */
 
+
+
 class FileHandler{
-  
+
   protected $fileName;
   protected $directoryName;
-  protected $fullFileLocation;
+  protected $file;
 
-  /*Creates a directory and log file of the users choosing*/
-  function __construct($log, $directory, $file){
-
-    if(!file_exists($log."/".$directory)){
-      mkdir($directory);
-    }
+  /*Turns a file into an object*/
+  function __construct($baseUrl, $directory, $file){
     
     $this->fileName = $file;
-    $this->directoryName = $log."/".$directory;
-    $this->fullFileLocation = $log."/".$directory."/".$file;    
+    $this->directoryName = $baseUrl."/".$directory;
+    $this->file = $baseUrl."/".$directory."/".$file;    
  
-  } 
- 
+  }   
 
-  
-  
-  /*Opens the file created by the constructor and logs action with date and time*/
-  function add_to_log($message){
+  /*Boolean to see if the file can be found*/
+  function file_found(){
     
-    $timeStamp = date("m/d/y  H:i:s", time());
-    $file = fopen($this->fullFileLocation ,"a+");
-    fwrite($file, $timeStamp." ".$message."\n");
-    fclose($file); 
-    
-  }
-
-
-
-
-
-  /*Checks to see if the desired file can be found*/
-  function file_found($file){
-    
-    if(!file_exists($file)){
-      $message = "Error: File (".$file.") not found";
-      $this->add_to_log($message);
-      return false;
-    }
-    
-    else{
-      $message = "Success: File (".$file.") found";
-      $this->add_to_log($message);
+    if(file_exists($this->file)){
       return true;
     }
     
+    else{
+      return false;
+    }
+    
+  }
+  
+
+  /*Boolean to see if the current file is actually a directory*/
+  function is_directory(){
+    
+    if(is_dir($this->file)){
+      return true;
+    }
+    
+    else{
+      return false;
+    }
+
   }
 
-
-
   
-  /*Checks to see if a desired directory can be found*/
-  function directory_found($directory){
+  /*Boolean to see if the directory can be found*/
+  function directory_found(){
     
     /*First checks to see if the location is in fact a directory then makes sure it exists*/
-    if(is_dir($directory)){ 
+    if($this->is_directory()){ 
      
-      if(!file_exists($directory)){
-	$errorMessage = "Error: Directory (".$directory.") not found";
-	return false;
-      }
-      
-      else {
-	$message = "Success: (".$directory.") has been found";
-	$this->add_to_log($message);
+      if($this->file_found()){
 	return true;
       }
+      
+
+      /*Returns false if the file doesn't exist*/
+      else {
+	return false;
+      }
     }
     
+    /*Returns false if the file exists but is not a directory*/  
     else{
-      $message = "Error: (".$directory.") is not a directory";
-      $this->add_to_log($message);
       return false;
     }
     
@@ -90,127 +77,146 @@ class FileHandler{
   
   
   
-  /*Checks to see if you can write to a specified directory*/
-  function directory_writable($directory){
+  /*Boolean to check if a directory is writable*/
+  function directory_writable(){
     
-    if(is_writable($directory)){
-      $message = "Success (".$directory.") is writeable";
-      $this->add_to_log($message);
-      return true;
+
+    /*Makes sure that it is a directory and that it does exist*/
+    if($this->directory_found()){
+      
+      if(is_writable($this->file)){
+	return true;
+      }
+      
+      /*Returns false if the directory isn't writeable*/
+      else{
+	return false;     
+      }
+
     }
     
+    /*Returns false if the directory can't be found*/
     else{
-      $message = "Error (".$directory.") is not writeable";
-      $this->add_to_log($message);
-      return false;     
+      return false;
     }
-    
+
   }
   
-  /*Checks to see if you can write to a specified file*/
-  function file_writable($file){
-    
-    if(is_writable($file)){
-      $message = "Success: (".$file.") is writeable";
-      $this->add_to_log($message);
-      return true;
+  
+
+  /*Boolean to see if the file is writable*/
+  function file_writable(){
+  
+    /*First checks to make sure that the file exists*/  
+    if($this->file_found()){
+      
+      /*Then makes sure that the file isn't a directory*/
+      if(!($this->is_directory())){
+	  
+	  if(is_writable($this->file)){
+	    return true;
+	  }
+
+	  /*Returns false if the file isn't writeable*/
+	  else {
+	    return false;
+	  }
+	  
+	}
+
+      /*Returns false if the file is a directory*/
+	else{
+	  return false;
+	}
+      
     }
     
+    /*Returns false if the file doesn't exist*/
     else{
-      $message = "Error: (".$file.") is not writeable";
-      $this->add_to_log($message);      
       return false;
     }
     
   }
   
-  /*Checks to see if a specified file can be read*/
-  function file_readable($file){
+
+  
+  /*Boolean to see if the file can be read*/
+  function file_readable(){
     
-    if(is_readable($file)){
-      $message = "Success: (".$file.") is readable";
-      $this->add_to_log($message);
-      return true;
+    /*Makes sure the file exists*/
+    if($this->file_found()){
+      
+      if(is_readable($this->file)){
+	return true;
+      }
+      
+      /*Returns false if the file is not readable*/
+      else{      
+	return false;
+      }
     }
-    
+
+    /*Returns false if the file doesn't exist*/
     else{
-      $message = "Error: (".$file.") is not readable";
-      $this->add_to_log($message);      
       return false;
     }
-    
+      
   }
   
-  /*Deletes a specified file*/
-  function delete_file($file){
+  /*Boolean to delete the file*/
+  function delete_file(){
     
     /*First finds the file and then tries to delete it*/
-    if($this->file_found($file)){
+    if($this->file_found()){
       unlink($file);
       
-      /*Verifies that the file has been deleted by searching for it again. Uses file_exists in order to not produce an innacurate log*/ 
-      if(!file_exists($file)){
-	$message = "Success (".$file.") has been deleted";
-	$this->add_to_log($message);
+      /*Verifies that the file has been deleted by searching for it again. Returns true if the file doesn't exist*/ 
+      if(!($this->file_found())){
 	return true;
+      }
+
+      /*Returns false if the file was not deleted*/
+      else{
+	return false;
       }
     }
     
-    else {
-      $message = "Error (".$file.") could not be deleted";
-      $this->add_to_log($message);      
+    /*Returns false if the file could not be found*/
+    else {     
       return false;
     }
     
   }
   
-  /*Creates a directory if it doesn't already exist. Uses file_exists as to not produce an inaccurate log message*/
-  function create_directory($directory){
-    
-    /*First check to see if the directory already exists*/
-    if(!file_exists($directory)){
-      mkdir($directory);
-      
-      /*Next checks to make sure that the directory has actually been created*/
-      if(file_exists($directory)){
-	$message = "Success: (".$directory.") has been created";
-	$this->add_to_log($message);
-	return true;
-      }
-      
-      else{
-	$message = "Error: (".$directory.") could not be created";
-	return false;
-      }
-    }
-    
-    else{
-      $message = "Error: Can't create (".$directory.") as it already exists";
-      return false;      
-    }
-  }
   
   /*Writes the contents of an array to a file*/
-  function array_to_file($file, $content){
+  function array_to_file($content){
     
-    if($this->file_found($file)){
+    /*Makes sure the file exists*/
+    if($this->file_found()){
       
-      $file = fopen($file ,"a+");
-      $message = "Success: Opened (".$file.")";
-      $this->add_to_log($message);
-      
-      /*Takes each value in the array and adds it to the opened file*/
-      foreach($content as $value){
-	fwrite($file, $value."\n");
-	$message = "Success: (".$value.") has been added to (".$file.")";
-	$this->add_to_log($message);    
-      }
-      
+      /*Makes sure we can write to the file*/
+      if($this->file_writable){
+	
+	$file = fopen($this->file ,"a+");
+	
+	/*Takes each value in the array and adds it to the opened file*/
+	foreach($content as $value){
+	  fwrite($file, $value."\n");    
+	}
+	
       fclose($file);
-      $message = "Success: (".$file.") has been closed";
       return true;
     }
     
+      /*Returns false if you can't write to the file*/
+    else{
+      return false;
+    }
+      
+    }
+
+    /*Returns false if the file doesn't exist*/
     else{
       return false;
     }
@@ -235,27 +241,5 @@ class FileHandler{
   /*End line of entire FileHandler Class*/
 }
 
-/*A class that is used specifically for error handling*/
-class ErrorFileHandler extends FileHandler{
-
- /*Creates the directory and log file specifically for error handling*/
-  function __construct($errorLog){
-    
-    $errorDirectory = "errors";
-    $errorFileName = "errorLog.txt";
-    
-    
-    if(!($this->directory_found($errorLog."/".$errorDirectory))){
-      $this->create_directory($errorDirectory);
-    }
-    
-    $this->fileName = $errorFileName;
-    $this->directoryName = $errorDirectory;
-    $this->fullFileLocation = $errorLog."/".$errorDirectory."/".$errorFileName;    
-}
-  
-  /*End line of entire ErrorFileHandler Class*/
-} 
-
-
 ?>
+
