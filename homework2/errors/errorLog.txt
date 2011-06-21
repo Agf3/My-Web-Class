@@ -1,7 +1,0 @@
-07/06/11  03:04:11 Sorry h7 is not a valid tag
-07/06/11  03:04:44 Sorry h7 is not a valid tag
-07/06/11  03:04:56 Sorry 5 is not a valid attribute
-07/06/11  03:07:23 Sorry asfd is not a valid tag
-07/06/11  03:07:23 Sorry 5 is not a valid attribute
-07/06/11  03:10:09 Sorry asfd is not a valid tag
-07/06/11  03:10:09 Sorry 5 is not a valid attribute
