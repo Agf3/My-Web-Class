@@ -2,12 +2,13 @@
 
 /* 
  * Created by Alex Figueroa
- * A class to create a Thing as defined by http://www.schema.org/thing 
+ * A class to create a Thing as defined by http://www.schema.org/Thing
 */
 
-function __autoload($class_name) {
-    include $class_name . '.php';
+function __autoload($class_name){
+     include $class_name.'.php';
 }
+
 
 class Thing extends Tag{
   
