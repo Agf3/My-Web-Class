@@ -13,13 +13,12 @@ class Thing extends Tag{
   private $description;
   private $image;
   private $url;
-  //private $itemtype = '&quot;http://www.schema.org/Thing&quot;';
-  private $itemtype = ' "http://www.schema.org/Thing" ';
+  private $itemtype = "http://www.schema.org/Thing";
   
-
+  
   /*Constructor for the Thing Class*/
   function __construct() {
-
+    
     
     /*Taken from Professor Williams code.  Hardcodes all the default tags for our private variables*/
     $this->description->tag->tagtype = 'span';
@@ -38,7 +37,7 @@ class Thing extends Tag{
     //print_r($this);
     /*End Professor Williams code*/
   }  
-
+  
   /*START SETTER METHODS*/
   
   /*START NAME*/
@@ -46,7 +45,7 @@ class Thing extends Tag{
   function set_name($name){
     $this->name->value = $name;
   }
-
+  
   /*Set or change the attributes for the name of your thing*/
   function set_name_attributes($var){
     
@@ -63,9 +62,9 @@ class Thing extends Tag{
   function set_description($description){
     $this->description->value = $description;
   }
-
+  
   function set_description_attributes($var){
-
+    
     $class = get_class($this) . ' description ' . $var;
     $this->description->attributes['class'] = $class;
     $this->description->attributes['itemprop'] = 'description';
@@ -120,12 +119,12 @@ class Thing extends Tag{
   function get_name(){
     return $this->name->value;
   }
-
+  
   /*Retrieve the tag of the name of your Thing*/
   function get_name_tag(){
     return $this->name->tag->tagType;
   }
-
+  
   /*Retrieve the attributes of the name of your Thing*/
   function get_name_attributes(){
     return $this->name->tag->attributes;
@@ -133,25 +132,25 @@ class Thing extends Tag{
   /*END NAME*/
   
   
-
+  
   /*START DESCRIPTION*/
   /*Retrieve the description of your Thing*/
   function get_description(){
     return $this->description->value;
   }
 
- /*Retrieve the tag of the description of your Thing*/
+  /*Retrieve the tag of the description of your Thing*/
   function get_description_tag(){
     return $this->description->tag->tagType;
   }
-
+  
   /*Retrieve the attributes of the description of your Thing*/
   function get_description_attributes(){
     return $this->description->tag->attributes;
   }
   /*END DESCRIPTION*/
   
-
+  
   /*START IMAGE*/
   /*Retrieve the image of your Thing*/
   function get_image(){
@@ -176,24 +175,33 @@ class Thing extends Tag{
     return $this->url->value;
   }
   
- /*Retrieve the tag of the name of your Thing*/
+  /*Retrieve the tag of the name of your Thing*/
   function get_url_tag(){
     return $this->url->tag->tagType;
   }
-
+  
   /*Retrieve the attributes of the name of your Thing*/
   function get_url_attributes(){
     return $this->url->tag->attributes;
   }
   /*END URL*/
 
+  /*START ITEMTYPE*/
+  /*Retrieve the itemtype of your thing*/
+  function get_itemtype(){
+    return $this->itemtype;
+  }
+  /*END ITEMTYPE*/
+
+  
+
 
   /*START HTML PRINTING FUNCTIONS*/
   /*Note: I created the functions to print to screen and realize that these need to be changed once we actually load them into the database*/
-
-  /*Creates the opening div tag for the schema. Defaults to the Thing itemtype if no variable is entered*/ 
-  protected function itemscope_open($itemtype = $this->itemtype){ 
-    $html = "&lt;div itemscope itemtype=&quot;".$itemtype."&quot;&gt;";    \
+  
+   /*Creates the opening div tag for the schema. Defaults to the Thing itemtype if no variable is entered*/ 
+  protected function itemscope_open(){ 
+    $html = "&lt;div itemscope itemtype=&quot;".$this->get_itemtype()."&quot;&gt;"; 
     return $html;
   }
   
@@ -215,13 +223,13 @@ class Thing extends Tag{
     $html = "&lt;".$this->get_description_tag()." itemprop=&quot;description&quot;&gt;".$this->get_description()."&lt;/".$this->get_description_tag()."&gt;";
     return $html;
   }
-
+  
   /*Creates the full html tag for the image*/
   protected function itemprop_image(){
     $html ="&lt;".$this->get_image_tag()." itemprop=&quot;image&quot; src=&quot;".$this->get_image()."&quot; /&gt;";
     return $html;
   }
-
+  
   /*Creates the full html tag for the url*/
   protected function itemprop_url(){
     $html = "&lt".$this->get_url_tag." itemprop=&quot;url&quot; href&quot;".$this->get_url()."&quot;&gt;".$this->get_url()."&lt;/".$this->get_url_tag()."&gt;";
@@ -230,18 +238,17 @@ class Thing extends Tag{
   
   
   /*Creates the full html printout for the Thing Schema*/
-  protected function print_schema(){
+  function print_schema(){
     
-    $html = $this->itemscope_open()."\n";
-    $html .= $this->itemprop_name()."\n";
-    $html .= $this->itemprop_description()."\n";
-    $html .= $this->itemprop_image()."\n";
-    $html .= $this->itemprop_url()."\n";
+    $html = $this->itemscope_open()."    ";
+    $html .= $this->itemprop_name()."   ";
+    $html .= $this->itemprop_description()."    ";
+    $html .= $this->itemprop_image()."    ";
+    $html .= $this->itemprop_url()."     ";
     $html .= $this->itemscope_close();
     
     return $html;
   }
-  
   /*End line of entire Class*/
 }
 ?>
