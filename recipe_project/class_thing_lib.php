@@ -5,7 +5,9 @@
  * A class to create a Thing as defined by http://www.schema.org/thing 
 */
 
-include("class_tag_lib.php");
+function __autoload($class_name) {
+    include $class_name . '.php';
+}
 
 class Thing extends Tag{
   
