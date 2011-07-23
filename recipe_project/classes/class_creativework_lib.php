@@ -7,7 +7,7 @@
  */
 
 function __autoload($class_name){
-  include $class_name.'.php';
+  include ('class_'.$class_name.'_lib.php');
 }
 
 

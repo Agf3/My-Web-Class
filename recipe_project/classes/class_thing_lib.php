@@ -6,7 +6,7 @@
 */
 
 function __autoload($class_name){
-  include $class_name.'.php';
+  include ('class_'.$class_name.'_lib.php');
 }
 
 class Thing extends Tag{
@@ -21,23 +21,29 @@ class Thing extends Tag{
   /*Constructor for the Thing Class*/
   function __construct() {
     
+    /*Edited from Professor Williams code.  Hardcodes all the default tags for our private variables*/
+    //Set all tag types
+    $this->name->tag->tagType = 'span';    
+    $this->description->tag->tagType = 'span';
+    $this->image->tag->tagType = 'img';
+    $this->url->tag->tagType = 'a';
     
-    /*Taken from Professor Williams code.  Hardcodes all the default tags for our private variables*/
-    $this->description->tag->tagtype = 'span';
-    $this->image->tag->tagtype = 'img';
-    $this->url->tag->tagtype = 'a';
-    $this->name->tag->tagtype = 'span';
-    //Removed form fields
+    //Set all form fields
+    $this->name->form->fieldtype = 'text';
+    $this->description->form->fieldtype = 'text';
+    $this->image->form->fieldtype = 'text';
+    $this->url->form->fieldtype = 'text';
+    
+    //Set all tag attributes
     $this->name->tag->attributes['class'] = get_class($this) . ' name '; //Changed to correct variable (tag => name)
     $this->name->tag->attributes['itemprop'] = 'name'; //Changed to correct variable (tag => name)
-    $this->url->tag->attributes['class'] = get_class($this) . ' url ';
-    $this->url->tag->attributes['itemprop'] = 'url';
+    $this->description->tag->attributes['class'] = get_class($this) . ' description ';
+    $this->description->tag->attributes['itemprop'] = 'description';
     $this->image->tag->attributes['class'] = get_class($this) . ' image ';
     $this->image->tag->attributes['itemprop'] = 'image';
-    $this->description->tag->attributes['class'] = get_class($this) . ' description ';
-    $this->description->tag->attributes['itemprop'] = 'description';	
-    //print_r($this);
-    /*End Professor Williams code*/
+    $this->url->tag->attributes['class'] = get_class($this) . ' url ';
+    $this->url->tag->attributes['itemprop'] = 'url';	
+    //End Professor Williams code
   }  
   
   /*START SETTER METHODS*/
@@ -194,14 +200,14 @@ class Thing extends Tag{
     return $this->itemtype;
   }
   /*END ITEMTYPE*/
-
+  
   /*END SETTER METHODS*/  
-
-
+  
+  
   /*START HTML PRINTING FUNCTIONS*/
   /*Note: I created the functions to print to screen and realize that these need to be changed once we actually load them into the database*/
   
-   /*Creates the opening div tag for the schema. Defaults to the Thing itemtype if no variable is entered*/ 
+  /*Creates the opening div tag for the schema. Defaults to the Thing itemtype if no variable is entered*/ 
   protected function itemscope_open(){ 
     $html = "&lt;div itemscope itemtype=&quot;".$this->get_itemtype()."&quot;&gt;"; 
     return $html;
@@ -213,7 +219,7 @@ class Thing extends Tag{
     return $html;
   }
   
-
+  
   /*Creates the full html tag for the name*/
   protected function itemprop_name(){
     $html = "&lt;".$this->get_name_tag()." itemprop=&quot;name&quot;&gt;".$this->get_name()."&lt;/".$this->get_name_tag()."&gt;";
