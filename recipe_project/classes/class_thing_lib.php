@@ -293,7 +293,8 @@ class Thing extends Tag{
     $html .= $this->itemprop_description()."</br>";
     $html .= $this->itemprop_image()."</br>";
     $html .= $this->itemprop_url()."</br>";
-    $html .= $this->itemscope_close();
+    $html .= $this->itemscope_close()."</br>";
+    
     
     return $html;
   }
