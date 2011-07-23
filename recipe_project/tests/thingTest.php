@@ -2,14 +2,16 @@
 
 include ("../classes/class_thing_lib.php");
 
-$thing = new Thing();
+echo "test";
 
-$thing->set_name("Football");
-$thing->set_description("Toy used to play football with");
-$thing->set_image("http://www.football.com");
-$thing->set_url("http://www.nfl.com");
+//$thing = new Thing();
+
+//$thing->set_name("Football");
+//$thing->set_description("Toy used to play football with");
+//$thing->set_image("http://www.football.com");
+//$thing->set_url("http://www.nfl.com");
 //print_r($thing->get_image());
 //print_r($thing->get_image_attributes());
 //print_r($thing->get_image_tag());
-print_r($thing->print_schema());
+//print_r($thing->print_schema());
 ?>

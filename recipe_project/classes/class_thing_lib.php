@@ -243,16 +243,18 @@ class Thing extends Tag{
     $html = "&lt".$this->get_url_tag." itemprop=&quot;url&quot; href&quot;".$this->get_url()."&quot;&gt;".$this->get_url()."&lt;/".$this->get_url_tag()."&gt;";
     return $html;
   }
+
   
   
   /*Creates the full html printout for the Thing Schema*/
   function print_schema(){
     
     $html = $this->itemscope_open()."    ";
-    $html .= $this->itemprop_name()."   ";
-    $html .= $this->itemprop_description()."    ";
-    $html .= $this->itemprop_image()."    ";
-    $html .= $this->itemprop_url()."     ";
+    $html .=$this->get_tag();
+    //$html .= $this->itemprop_name()."   ";
+    //$html .= $this->itemprop_description()."    ";
+    //$html .= $this->itemprop_image()."    ";
+    //$html .= $this->itemprop_url()."     ";
     $html .= $this->itemscope_close();
     
     return $html;
