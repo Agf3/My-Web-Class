@@ -54,13 +54,18 @@ class Thing extends Tag{
     $this->name->value = $name;
   }
   
-  /*Set or change the attributes for the name of your thing*/
+  /*Set or change the attributes for the name of your Thing*/
   function set_name_attributes($var){
     
     $class = get_class($this) . ' name ' . $var;
     $this->name->attributes['class'] = $class;
     $this->name->attributes['itemprop'] = 'name';
     
+  }
+
+  /*Set or change the form field type for the name of your Thing*/
+  function set_name_form($form){
+    $this->name->form->fieldtype = $form;
   }
   /*END NAME*/
   
@@ -77,6 +82,11 @@ class Thing extends Tag{
     $this->description->attributes['class'] = $class;
     $this->description->attributes['itemprop'] = 'description';
     
+  }
+
+  /*Set or change the form field type for the description of your Thing*/
+  function set_description_form($form){
+    $this->description->form->fieldtype = $form;
   }
   /*END DESCRIPTION*/
   
@@ -96,6 +106,11 @@ class Thing extends Tag{
     $this->image->attributes['src'] = $this->get_image();
     
   }
+
+  /*Set or change the form field type for the name of your Thing*/
+  function set_image_form($form){
+    $this->image->form->fieldtype = $form;
+  }
   /*END IMAGE*/
   
   
@@ -114,6 +129,11 @@ class Thing extends Tag{
     $this->url->attributes['itemprop'] = 'url';
     $this->url->attributes['href'] = $this->get_url();
     
+  }
+
+  /*Set or change the form field type for the url of your Thing*/
+  function set_url_form($form){
+    $this->url->form->fieldtype = $form;
   }
   /*END URL*/
   
@@ -137,6 +157,11 @@ class Thing extends Tag{
   function get_name_attributes(){
     return $this->name->tag->attributes;
   }
+  
+  /*Retrieve the form field type for the name of your Thing*/
+  function get_name_form($form){
+    return $this->name->form->fieldtype;
+  }
   /*END NAME*/
   
   
@@ -156,6 +181,11 @@ class Thing extends Tag{
   function get_description_attributes(){
     return $this->description->tag->attributes;
   }
+
+  /*Retrieve the form field type for the description of your Thing*/
+  function get_description_form($form){
+    return $this->description->form->fieldtype;
+  }
   /*END DESCRIPTION*/
   
   
@@ -165,14 +195,19 @@ class Thing extends Tag{
     return $this->image->value;
   }
   
-  /*Retrieve the tag of the name of your Thing*/
+  /*Retrieve the tag of the image of your Thing*/
   function get_image_tag(){
     return $this->image->tag->tagType;
   }
   
-  /*Retrieve the attributes of the name of your Thing*/
+  /*Retrieve the attributes of the image of your Thing*/
   function get_image_attributes(){
     return $this->image->tag->attributes;
+  }
+  
+  /*Retrieve the form field type for the image of your Thing*/
+  function get_image_form($form){
+    return $this->image->form->fieldtype;
   }
   /*END IMAGE*/
   
@@ -191,6 +226,11 @@ class Thing extends Tag{
   /*Retrieve the attributes of the name of your Thing*/
   function get_url_attributes(){
     return $this->url->tag->attributes;
+  }
+  
+  /*Retrieve the form field type for the name of your Thing*/
+  function get_url_form($form){
+    return $this->url->form->fieldtype;
   }
   /*END URL*/
 
@@ -222,39 +262,37 @@ class Thing extends Tag{
   
   /*Creates the full html tag for the name*/
   protected function itemprop_name(){
-    $html = "&lt;".$this->get_name_tag()." itemprop=&quot;name&quot;&gt;".$this->get_name()."&lt;/".$this->get_name_tag()."&gt;";
-    return $html;
+    $this->set_tag($this->get_name_tag(), $this->get_name_attributes(), $this->get_name());
+    return $this->get_tag();
   }
   
   /*Creates the full html tag for the description*/
   protected function itemprop_description(){
-    $html = "&lt;".$this->get_description_tag()." itemprop=&quot;description&quot;&gt;".$this->get_description()."&lt;/".$this->get_description_tag()."&gt;";
-    return $html;
+    $this->set_tag($this->get_description_tag(), $this->get_description_attributes(), $this->get_description());
+    return $this->get_tag();
   }
   
   /*Creates the full html tag for the image*/
   protected function itemprop_image(){
-    $html ="&lt;".$this->get_image_tag()." itemprop=&quot;image&quot; src=&quot;".$this->get_image()."&quot; /&gt;";
-    return $html;
+    $this->set_tag($this->get_image_tag(), $this->get_image_attributes(), $this->get_image());
+    return $this->get_tag();
   }
   
   /*Creates the full html tag for the url*/
   protected function itemprop_url(){
-    $html = "&lt".$this->get_url_tag." itemprop=&quot;url&quot; href&quot;".$this->get_url()."&quot;&gt;".$this->get_url()."&lt;/".$this->get_url_tag()."&gt;";
-    return $html;
+    $this->set_tag($this->get_url_tag(), $this->get_url_attributes(), $this->get_url());
+    return $this->get_tag();
   }
-
   
   
   /*Creates the full html printout for the Thing Schema*/
   function print_schema(){
     
-    $html = $this->itemscope_open()."    ";
-    $html .=$this->get_tag();
-    //$html .= $this->itemprop_name()."   ";
-    //$html .= $this->itemprop_description()."    ";
-    //$html .= $this->itemprop_image()."    ";
-    //$html .= $this->itemprop_url()."     ";
+    $html = $this->itemscope_open()."</br>";
+    $html .= $this->itemprop_name()."</br>";
+    $html .= $this->itemprop_description()."</br>";
+    $html .= $this->itemprop_image()."</br>";
+    $html .= $this->itemprop_url()."</br>";
     $html .= $this->itemscope_close();
     
     return $html;
