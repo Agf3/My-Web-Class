@@ -4,8 +4,6 @@
  *Created by Alex Figueroa
 */
 
-//include("class_filehandler_lib.php");
-
 class Tag{
   
   /*variables assigned to each tag*/
@@ -35,29 +33,36 @@ class Tag{
     /*Check to make sure that the tag type & attributes are valid*/
     if($this->attribute_validation($tagAttributes) && ($validate!='Error')){
       
-      $tagOutput = "&lt".$tagType;
-      
+      //$tagOutput = "&lt".$tagType;
+      $tagOutput = '<'.$tagType;      
+
       /*Creates the section for the attributes*/ 
       foreach($tagAttributes as $key => $value){
-	$tagAttributesOutput .= " ".$key."=&#039".$value."&#039";
+	//$tagAttributesOutput .= " ".$key."=&#039".$value."&#039";
+	$tagAttributesOutput .=" ".$key."='".$value."'";
       }
       
       /*Determines the type of tag to create based on validation function*/  
       switch($validate){
       case 'Normal':
-	$tagOutput .= $tagAttributesOutput."&gt".$tagContent."&lt/".$tagType."&gt";
+	//$tagOutput .= $tagAttributesOutput."&gt".$tagContent."&lt/".$tagType."&gt";
+	$tagOutput .= $tagAttributesOutput.">".$tagContent."</".$tagType.">";
 	break;
       case 'Single':
-	$tagOutput .= $tagAttributesOutput." /&gt";
+	//$tagOutput .= $tagAttributesOutput." /&gt";
+	$tagOutput .= $tagAttributesOutput." />";
 	break;
       case 'SingleNoAttribute':
-	$tagOutput .= " /&gt";
+	//$tagOutput .= " />";
+	$tagOutput .= " />";
 	break;
       case 'Comment':
-	$tagOutput .=" ".$tagContent." --&gt";
+	//$tagOutput .=" ".$tagContent." --&gt";
+	$tagOutput .=" ".$tagContent." -->";
 	break;
       case 'Document':
-	$tagOutput .=" HTML &gt";
+	//$tagOutput .=" HTML &gt";
+	$tagOutput .=" HTML >";
 	break;
       }
       
@@ -111,19 +116,14 @@ class Tag{
     
     return $tag;
   }
-
+  
   /*Checks to make sure the tag is a valid html5 tag*/
   function html5_validation($tagType){
     
     /*A list of all HTML5 tags. Source is http://www.w3schools.com/*/
     $validTags = array("!--","!DOCTYPE", "a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdo", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "command", "datalist", "dd", "del", "details", "dfn", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form",  "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "frame", "img", "input", "ins", "keygen", "kbd", "label", "legend", "li", "link",  "map", "mark", "menu", "meta", "meter", "nav",  "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "pre", "progress", "q", "rp", "rt", "ruby", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "texture", "toot", "th", "thead", "time", "title", "tr", "ul", "var", "video", "wbr");
     
-    if(in_array($tagType, $validTags)){
-      return true;
-    }
-    else{
-      return false;
-    }
+    return((in_array($tagType, $validTags)));
     
   }
   
@@ -132,17 +132,12 @@ class Tag{
     
     /*A list of tags that only contain one pair of brackets with attributes (Example: <area href="test"/>)*/
     $singleTagsWithAttributes = array("area", "base", "col", "embed", "img", "input", "keygen", "link", "meta", "param", "source");
-
-    if(in_array($tagType, $singleTagsWithAttributes)){
-      return true;
-    }
-    else{
-      return false;
-    }
+    
+    return(in_array($tagType, $singleTagsWithAttributes));
     
   }
-
-
+  
+  
   
   /*Checks to see if the tag is a single tag without attributes*/
   function single_tag_no_attributes_validation($tagType){
@@ -150,16 +145,11 @@ class Tag{
     /*A list of tags that only contain one pair of brackets with no attributes (Example: <br/>)*/
     $singleTagsNoAttributes = array("br", "hr");
     
-    if(in_array($tagType, $singleTagsNoAttributes)){
-      return true;
-    }
-    else{
-      return false;
-    }
+    return(in_array($tagType, $singleTagsNoAttributes));
     
   }
-
-
+  
+  
 
   /*Checks to see if the tag is a comment*/
   function comment_tag_validation($tagType){
@@ -167,29 +157,19 @@ class Tag{
     /*A list of tags that can be used as comments*/
     $commentTags = array("!--");
 
-    if(in_array($tagType, $commentTags)){
-      return true;
-    }
-    else{
-      return false;
-    }
-
+    return(in_array($tagType, $commentTags));
+    
   }
   
 
 
   /*Checks to see if the tag is a document type*/
   function document_tag_validation($tagType){
-
+    
     /*A list of tags that can be used as document types*/
     $documentTags = array("!DOCTYPE");
 
-    if(in_array($tagType, $documentTags)){
-      return true;
-    }
-    else{
-      return false;
-    }
+    return(in_array($tagType, $documentTags));
     
   }
 
@@ -212,9 +192,9 @@ class Tag{
 	echo "\n";
 	
 	
-	  $directory = getcwd();
-	  $errorLog = new ErrorFileHandler($directory);
-	  $errorLog->add_to_log($errorMessage);
+	$directory = getcwd();
+	$errorLog = new ErrorFileHandler($directory);
+	$errorLog->add_to_log($errorMessage);
 	
 	
 	return false;

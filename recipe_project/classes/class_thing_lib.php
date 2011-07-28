@@ -11,10 +11,10 @@ function __autoload($class_name){
 
 class Thing extends Tag{
   
-  private $name;
-  private $description;
-  private $image;
-  private $url;
+  protected $name;
+  protected $description;
+  protected $image;
+  protected $url;
   private $itemtype = "http://www.schema.org/Thing";
   
   
@@ -56,10 +56,10 @@ class Thing extends Tag{
   
   /*Set or change the attributes for the name of your Thing*/
   function set_name_attributes($var){
-    
+    $as = "test";
     $class = get_class($this) . ' name ' . $var;
-    $this->name->attributes['class'] = $class;
-    $this->name->attributes['itemprop'] = 'name';
+    $this->name->tag->attributes['class'] = $class;
+    $this->name->tag->attributes['itemprop'] = 'name'.$as;
     
   }
 
@@ -79,8 +79,8 @@ class Thing extends Tag{
   function set_description_attributes($var){
     
     $class = get_class($this) . ' description ' . $var;
-    $this->description->attributes['class'] = $class;
-    $this->description->attributes['itemprop'] = 'description';
+    $this->description->tag->attributes['class'] = $class;
+    $this->description->tag->attributes['itemprop'] = 'description';
     
   }
 
@@ -95,16 +95,16 @@ class Thing extends Tag{
   /*Set or change the image of your Thing*/
   function set_image($image){
     $this->image->value = $image;
+    $this->set_image_attributes();
   }
   
   /*Set or change the attributes for the image of your Thing*/
   function set_image_attributes($var){
     
     $class = get_class($this) . ' image ' . $var;
-    $this->image->attributes['class'] = $class;
-    $this->image->attributes['itemprop'] = 'image';
-    $this->image->attributes['src'] = $this->get_image();
-    
+    $this->image->tag->attributes['class'] = $class;
+    $this->image->tag->attributes['itemprop'] = 'image';
+    $this->image->tag->attributes['src'] = $this->get_image();   
   }
 
   /*Set or change the form field type for the name of your Thing*/
@@ -125,9 +125,9 @@ class Thing extends Tag{
   function set_url_attributes($var) {
     
     $class = get_class($this) . ' url ' . $var;
-    $this->url->attributes['class'] = $class;
-    $this->url->attributes['itemprop'] = 'url';
-    $this->url->attributes['href'] = $this->get_url();
+    $this->url->tag->attributes['class'] = $class;
+    $this->url->tag->attributes['itemprop'] = 'url';
+    $this->url->tag->attributes['href'] = $this->get_url();
     
   }
 
@@ -245,17 +245,17 @@ class Thing extends Tag{
   
   
   /*START HTML PRINTING FUNCTIONS*/
-  /*Note: I created the functions to print to screen and realize that these need to be changed once we actually load them into the database*/
-  
   /*Creates the opening div tag for the schema. Defaults to the Thing itemtype if no variable is entered*/ 
   protected function itemscope_open(){ 
-    $html = "&lt;div itemscope itemtype=&quot;".$this->get_itemtype()."&quot;&gt;"; 
+    //$html = "&lt;div itemscope itemtype=&quot;".$this->get_itemtype()."&quot;&gt;"; 
+    $html = '<div itemscope itemtype="'.$this->get_itemtype().'">';
     return $html;
   }
   
   /*Provides the final closed div tag for the schema*/
   protected function itemscope_close(){
-    $html = "&lt;/div&gt;";    
+    //$html = "&lt;/div&gt;";    
+    $html = '</div>';
     return $html;
   }
   
@@ -294,7 +294,6 @@ class Thing extends Tag{
     $html .= $this->itemprop_image()."</br>";
     $html .= $this->itemprop_url()."</br>";
     $html .= $this->itemscope_close()."</br>";
-    
     
     return $html;
   }
