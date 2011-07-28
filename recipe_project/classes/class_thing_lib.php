@@ -35,13 +35,13 @@ class Thing extends Tag{
     $this->url->form->fieldtype = 'text';
     
     //Set all tag attributes
-    $this->name->tag->attributes['class'] = get_class($this) . ' name '; //Changed to correct variable (tag => name)
+    $this->name->tag->attributes['class'] = get_class($this) . ' name'; //Changed to correct variable (tag => name)
     $this->name->tag->attributes['itemprop'] = 'name'; //Changed to correct variable (tag => name)
-    $this->description->tag->attributes['class'] = get_class($this) . ' description ';
+    $this->description->tag->attributes['class'] = get_class($this) . ' description';
     $this->description->tag->attributes['itemprop'] = 'description';
-    $this->image->tag->attributes['class'] = get_class($this) . ' image ';
+    $this->image->tag->attributes['class'] = get_class($this) . ' image';
     $this->image->tag->attributes['itemprop'] = 'image';
-    $this->url->tag->attributes['class'] = get_class($this) . ' url ';
+    $this->url->tag->attributes['class'] = get_class($this) . ' url';
     $this->url->tag->attributes['itemprop'] = 'url';	
     //End Professor Williams code
   }  
@@ -56,11 +56,9 @@ class Thing extends Tag{
   
   /*Set or change the attributes for the name of your Thing*/
   function set_name_attributes($var){
-    $as = "test";
     $class = get_class($this) . ' name ' . $var;
     $this->name->tag->attributes['class'] = $class;
-    $this->name->tag->attributes['itemprop'] = 'name'.$as;
-    
+    $this->name->tag->attributes['itemprop'] = 'name';
   }
 
   /*Set or change the form field type for the name of your Thing*/
