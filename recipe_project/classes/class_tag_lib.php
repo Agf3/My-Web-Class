@@ -148,8 +148,6 @@ class Tag{
     return(in_array($tagType, $singleTagsNoAttributes));
     
   }
-  
-  
 
   /*Checks to see if the tag is a comment*/
   function comment_tag_validation($tagType){
@@ -160,8 +158,6 @@ class Tag{
     return(in_array($tagType, $commentTags));
     
   }
-  
-
 
   /*Checks to see if the tag is a document type*/
   function document_tag_validation($tagType){
@@ -179,11 +175,13 @@ class Tag{
   function attribute_validation($attribute){
     
     /*Checks each attribute individually to make sure it is a valid string*/
-    foreach ($attribute as $value){
+    foreach ($attribute as $key => $value){
       
       $numbers = '0123456789';
       
+      /*If attribute key is set to content will not check for numbers in attribute value due to a meta value*/
       /*Checks to make sure the value is a string and that there are no numbers contained in the string*/
+      if($key != 'content'){
       if(!is_string($value) || (strcspn($value, $numbers) != strlen($value))){
 	
 	//echo "strcspn:".strcspn($value, $numbers)."  strlen:".strlen($value);
@@ -200,8 +198,8 @@ class Tag{
 	return false;
 	
       }	
+      }
     }
-    
     return true;
   }
   
