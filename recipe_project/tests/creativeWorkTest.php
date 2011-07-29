@@ -33,5 +33,7 @@ $book->set_family_friendly($isFamilyFriendly);
 $book->set_keywords($keywords);
 $book->set_publisher($publisher);
 
+//$book->set_about_attributes("test");
+
 print_r($book->print_schema());
 ?>
