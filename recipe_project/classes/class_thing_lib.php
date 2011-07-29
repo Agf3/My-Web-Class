@@ -116,6 +116,7 @@ class Thing extends Tag{
   /*Set or change the URL of your Thing*/
   function set_url($url){
     $this->url->value = $url;
+    $this->set_url_attributes();
   }
   
   
@@ -239,11 +240,11 @@ class Thing extends Tag{
   }
   /*END ITEMTYPE*/
   
-  /*END SETTER METHODS*/  
+  /*END GETTER METHODS*/  
   
   
   /*START HTML PRINTING FUNCTIONS*/
-  /*Creates the opening div tag for the schema. Defaults to the Thing itemtype if no variable is entered*/ 
+  /*Creates the opening div tag for the schema*/ 
   protected function itemscope_open(){ 
     //$html = "&lt;div itemscope itemtype=&quot;".$this->get_itemtype()."&quot;&gt;"; 
     $html = '<div itemscope itemtype="'.$this->get_itemtype().'">';
