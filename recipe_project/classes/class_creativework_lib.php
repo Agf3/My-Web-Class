@@ -32,7 +32,7 @@ class CreativeWork extends Thing{
   protected $publisher;
   //protected $reviews;
   //protected $video;
-  private $itemType = "http://www.schema.org/CreativeWorks";
+  private $itemtype = "http://www.schema.org/CreativeWorks";
   
   
   function __construct(){
@@ -92,6 +92,7 @@ class CreativeWork extends Thing{
     $this->datePublished->tag->tagType = 'meta';
     $this->datePublished->tag->attributes['class'] = get_class($this) . ' datePublished';
     $this->datePublished->tag->attributes['itemprop'] = 'publishDate';
+    $this->datePublished->tag->attributes['content'] = date('Y-m-d');
     $this->datePublished->form->fieldtype = 'text';
     
     $this->editor->tag->tagType = 'span';
@@ -253,12 +254,13 @@ class CreativeWork extends Thing{
   function set_date_published($datePublished){
     $this->datePublished->value = $datePublished;
   }
-
- /*Set or change the attributes for the publication date of the creative work*/
+  
+  /*Set or change the attributes for the publication date of the creative work*/
   function set_date_published_attributes($var){
     $class = get_class($this) . ' datePublished ' . $var;
     $this->datePublished->tag->attributes['class'] = $class;
     $this->datePublished->tag->attributes['itemprop'] = 'publishDate';
+    $this->datePublished->tag->attributes['content'] = date('Y-m-d');
   }
   
   /*Set or change the form field for the content rating of your creative work*/
@@ -706,6 +708,13 @@ class CreativeWork extends Thing{
     function get_video(){
     return $this->video->value;
     }*/
+
+  /*START ITEMTYPE*/
+  /*Retrieve the itemtype of your thing*/
+  function get_itemtype(){
+    return $this->itemtype;
+  }
+  /*END ITEMTYPE*/
   /*END ALL GETTERS*/
   
   /*START HTML PRINTING FUNCTIONS*/
@@ -799,5 +808,7 @@ class CreativeWork extends Thing{
     return $html;
     
   }
+  /*END PRINTING FUNCTIONS*/
+
   /* End line of entire class*/
 }
