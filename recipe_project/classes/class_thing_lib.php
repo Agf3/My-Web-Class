@@ -11,6 +11,7 @@ function __autoload($class_name){
 
 class Thing extends Tag{
   
+  protected $id;
   protected $name;
   protected $description;
   protected $image;
@@ -48,12 +49,22 @@ class Thing extends Tag{
   
   /*START SETTER METHODS*/
   
+  /*Set or change the id of your Thing*/
+  function set_id($id){
+    $this->id->value = $id;
+  }
+
   /*START NAME*/
   /*Set or change the name of your Thing*/
   function set_name($name){
     $this->name->value = $name;
   }
   
+  /*Set or change the tag for the name of your Thing*/
+  function set_name_tag($tag){
+    $this->name->tag->tagType = $tag;
+  }
+
   /*Set or change the attributes for the name of your Thing*/
   function set_name_attributes($var){
     $class = get_class($this) . ' name ' . $var;
@@ -74,6 +85,12 @@ class Thing extends Tag{
     $this->description->value = $description;
   }
   
+  /*Set or change the tag for the description of your Thing*/
+  function set_description_tag($tag){
+    $this->description->tag->tagType = $tag;
+  }
+
+  /*Set or change the attributes for the description of your Thing*/
   function set_description_attributes($var){
     
     $class = get_class($this) . ' description ' . $var;
@@ -96,6 +113,11 @@ class Thing extends Tag{
     $this->set_image_attributes();
   }
   
+  /*Set or change the tag for the image of your Thing*/
+  function set_image_tag($tag){
+    $this->image->tag->tagType = $tag;
+  }
+
   /*Set or change the attributes for the image of your Thing*/
   function set_image_attributes($var){
     
@@ -119,6 +141,10 @@ class Thing extends Tag{
     $this->set_url_attributes();
   }
   
+  /*Set or change the tag for the url of your Thing*/
+  function set_url_tag($tag){
+    $this->url->tag->tagType = $tag;
+  }
   
   /*Set or change the attributes for the url of your Thing*/
   function set_url_attributes($var) {
@@ -139,7 +165,12 @@ class Thing extends Tag{
   /*END SETTER METHODS*/
   
   
-  /*START GETTER METHODS*/  
+  /*START GETTER METHODS*/
+
+  /*Retrieve the id of your Thing*/
+  function get_id(){
+    return $this->id->value;
+  }  
   
   /*START NAME*/
   /*Retrieve the name of your Thing*/
@@ -328,7 +359,84 @@ class Thing extends Tag{
     
     return $thing;
   }
+  
+  /*Retrieves an object from the mongo db & turns it into a thing*/
+  function mongo_to_thing($conn, $database, $id){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $mongoID = new mongoId($id);
+      $criteria = array('_id' => $mongoID);
+      
+      /*Execute query*/
+      $cursor = $collection->find($criteria);      
+      
+      /*Checks to see if it can first find the thing by its ID*/
+      if($cursor->count() != 0){
+	/*Converts all the values from the mongo db into this Thing class*/
+	
+	foreach ($cursor as $obj) {
+	  $this->set_id($obj['_id']);
+	 
+	  /*Grabs the arrays from mongo and places them into their own variables*/
+	  $name = $obj['name'];
+	  $description = $obj['description'];
+	  $image = $obj['image'];
+	  $url = $obj['url'];
+	  
+	  /*Sets the values of Thing using the arrays above*/
+	  $this->set_name($name['value']);
+	  $this->set_name_tag($name['tag']);
+	  $this->set_name_attributes();//Still working on how to correctly pass through variables
+	  $this->set_name_form($name['form']);
 
+	  $this->set_description($description['value']);
+	  $this->set_description_tag($description['tag']);
+	  $this->set_description_attributes();//Still working on how to correctly pass through variables
+	  $this->set_description_form($description['form']);
+
+	  $this->set_image($image['value']);
+	  $this->set_image_tag($image['tag']);
+	  $this->set_image_attributes();//Still working on how to correctly pass through variables
+	  $this->set_image_form($image['form']);
+	
+	  $this->set_url($url['value']);
+	  $this->set_url_tag($url['tag']);
+	  $this->set_url_attributes();//Still working on how to correctly pass through variables
+	  $this->set_url_form($url['form']);
+
+	  //echo $this->get_id()."</br>";
+	  //echo $this->get_name()."</br>";
+	  //echo $this->get_name_tag()."</br>";
+	  //print_r($this->get_name_attributes())."</br>";
+	  //echo $this->get_name_form()."</br>";
+	}
+      }
+      
+      else{
+	echo "No such Thing with ID: ".$id;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+    
+  }
+
+  /*START CREATE*/
   /*Insert array into the mongo db*/
   function insert_to_mongo($conn, $database){
 
@@ -347,7 +455,11 @@ class Thing extends Tag{
       $item = $this->thing_to_array();
       $collection->insert($item);
       
-      /*Print to screen to make sure item has been added*/
+
+      /*Set the autocreated ID*/
+      $this->set_id($item['_id']);
+      //echo $this->get_id();
+      /*Print to screen to show which item has been added*/
       echo 'Inserted document with ID: ' . $item['_id'];
       
       /*Disconnect*/
@@ -358,7 +470,9 @@ class Thing extends Tag{
       die('Error: ' . $e->getMessage());
     }
   }
+  /*END CREATE*/
 
+  /*START RETRIEVE*/
   /*Retrieve every object from the mongo db in an array*/
   function retrieve_all_from_mongo($conn, $database){
     try {
@@ -565,6 +679,257 @@ class Thing extends Tag{
       die('Error: ' . $e->getMessage());
     } 
   }
+  /*END RETRIEVE*/
+  
+ /*START DELETE*/
+  
+  /*Remove an object from the mongo db using its id*/
+  function remove_from_mongo_id($conn, $database, $id){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $mongoID = new mongoId($id);
+      $criteria = array('_id' => $mongoID);
+
+      /*Checks to see if it can first find the value before attempting to remove*/
+      $cursor = $collection->find($criteria);
+      if($cursor->count() != 0){
+	
+	/*Execute query*/
+	$cursor = $collection->remove($criteria);
+	
+	/*Print Removal*/
+	echo "Removed Thing with ID: " .$criteria['_id'];
+      }
+      
+      else{
+      echo "No such object with ID: ".$id;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+  /*Remove an object from the mongo db using its name*/
+  function remove_from_mongo_name($conn, $database, $name){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('name.value' => $name);
+
+      /*Checks to see if it can first find the value before attempting to remove*/
+      $cursor = $collection->find($criteria);
+      if($cursor->count() != 0){
+	
+	/*Execute query*/
+	$cursor = $collection->remove($criteria);
+	
+	/*Print Removal*/
+	echo "Removed Thing with Name: " .$criteria['name.value'];
+      }
+      
+      else{
+      echo "No such Thing with Name: ".$name;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+  /*Remove an object from the mongo db using its description*/
+  function remove_from_mongo_description($conn, $database, $description){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('description.value' => $description);
+
+      /*Checks to see if it can first find the value before attempting to remove*/
+      $cursor = $collection->find($criteria);
+      if($cursor->count() != 0){
+	
+	/*Execute query*/
+	$cursor = $collection->remove($criteria);
+	
+	/*Print Removal*/
+	echo "Removed Thing with Description: " .$criteria['description.value'];
+      }
+      
+      else{
+      echo "No such Thing with Description: ".$description;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+/*Remove an object from the mongo db using its image*/
+  function remove_from_mongo_image($conn, $database, $image){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('image.value' => $image);
+
+      /*Checks to see if it can first find the value before attempting to remove*/
+      $cursor = $collection->find($criteria);
+      if($cursor->count() != 0){
+	
+	/*Execute query*/
+	$cursor = $collection->remove($criteria);
+	
+	/*Print Removal*/
+	echo "Removed Thing with Image: " .$criteria['image.value'];
+      }
+      
+      else{
+      echo "No such Thing with Image: ".$image;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+/*Remove an object from the mongo db using its url*/
+  function remove_from_mongo_url($conn, $database, $url){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('url.value' => $url);
+
+      /*Checks to see if it can first find the value before attempting to remove*/
+      $cursor = $collection->find($criteria);
+      if($cursor->count() != 0){
+	
+	/*Execute query*/
+	$cursor = $collection->remove($criteria);
+	
+	/*Print Removal*/
+	echo "Removed Thing with Url: " .$criteria['url.value'];
+      }
+      
+      else{
+      echo "No such Thing with Url: ".$url;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+  /*END DELETE*/
+
+  /*START UPDATE*/
+
+ /*Update an object from the mongo db using its id. The Thing must be updated prior to using this function*/
+  function upadte_from_mongo_id($conn, $database, $id){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $mongoID = new mongoId($id);
+      $criteria = array('_id' => $mongoID);
+
+      /*Checks to see if it can first find the value before attempting to update it*/
+      $cursor = $collection->findOne($criteria); //Only want to update one value
+      if($cursor->count() != 0){
+	
+	/*Execute query*/
+	$cursor = $collection->save($this->thing_to_array());
+	
+	/*Print Update*/
+	echo "Updated Thing with ID: " .$criteria['_id'];
+      }
+      
+      else{
+      echo "No such Thing with ID: ".$id;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+
+  /*END UPDATE*/
   /*END MONGODB FUNCTIONS*/
   /*End line of entire Class*/
 }
