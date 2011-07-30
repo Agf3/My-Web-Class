@@ -1,18 +1,15 @@
 <?php
 
-include ("../classes/class_thing_lib.php");
-
+include ('../classes/class_thing_lib.php');
 
 $thing = new Thing();
 
-$thing->set_name("Football");
-$thing->set_description("Toy used to play football with");
-$thing->set_image("http://www.pes-sports.com/football.gif");
-$thing->set_url("http://www.nfl.com");
-//$thing->set_image_attributes("tthing");
-//$thing->set_name_attributes();
-//print_r($thing->get_image());
-//print_r($thing->get_name_attributes());
-//print_r($thing->get_image_tag());
+$thing->set_name("Rugby");
+$thing->set_description("A Sport Played By Men");
+$thing->set_image("http://www.townsvillebulletin.com.au/images/uploadedfiles/editorial/pictures/2008/03/25/Hunt-hit.jpg");
+$thing->set_url("http://www.rugby.com");
+
 print_r($thing->print_schema());
+echo "</br></br>";
+print_r($thing->thing_to_array());
 ?>
