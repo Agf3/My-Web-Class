@@ -181,7 +181,7 @@ class Tag{
       
       /*If attribute key is set to content will not check for numbers in attribute value due to a meta value*/
       /*Checks to make sure the value is a string and that there are no numbers contained in the string*/
-      if($key != 'content'){
+      if($key != 'content' && $key != 'src' && $key != 'href'){
       if(!is_string($value) || (strcspn($value, $numbers) != strlen($value))){
 	
 	//echo "strcspn:".strcspn($value, $numbers)."  strlen:".strlen($value);
