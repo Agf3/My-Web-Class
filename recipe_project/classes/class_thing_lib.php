@@ -328,6 +328,243 @@ class Thing extends Tag{
     
     return $thing;
   }
+
+  /*Insert array into the mongo db*/
+  function insert_to_mongo($conn, $database){
+
+    /*Attempt to insert the thing into my db*/
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*Turn thing into an array then add to db*/
+      $item = $this->thing_to_array();
+      $collection->insert($item);
+      
+      /*Print to screen to make sure item has been added*/
+      echo 'Inserted document with ID: ' . $item['_id'];
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    }
+  }
+
+  /*Retrieve every object from the mongo db in an array*/
+  function retrieve_all_from_mongo($conn, $database){
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*Retrieve all documents*/
+      $cursor = $collection->find();
+      
+      /*Print all documents to screen*/
+      echo $cursor->count() . ' objects(s) found. <br/>';  
+      foreach ($cursor as $obj) {
+	print_r($obj);
+      }
+
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    }  
+    
+  }
+
+  /*Retrieve an object from the mongo db using its ID*/
+  function retrieve_from_mongo_id($conn, $database, $id){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $mongoID = new mongoId($id);
+      $criteria = array('_id' => $mongoID);
+      
+      /*Execute query*/
+      $cursor = $collection->find($criteria);
+      
+      /*Print all documents to screen (If done correctly should only produce 1 result)*/
+      echo $cursor->count() . ' objects(s) found. <br/>';  
+      foreach ($cursor as $obj) {
+	print_r($obj);
+	}
+      
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+  /*Retrieve an object from the mongo db using its name*/
+  function retrieve_from_mongo_name($conn, $database, $name){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('name.value' => $name);
+      
+      /*Execute query*/
+      $cursor = $collection->find($criteria);
+      
+      /*Print all documents to screen */
+      echo $cursor->count() . ' objects(s) found. <br/>';  
+      foreach ($cursor as $obj) {
+	print_r($obj);
+      }
+      
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+/*Retrieve an object from the mongo db using its description*/
+  function retrieve_from_mongo_description($conn, $database, $description){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('description.value' => $description);
+      
+      /*Execute query*/
+      $cursor = $collection->find($criteria);
+      
+      /*Print all documents to screen*/
+      echo $cursor->count() . ' objects(s) found. <br/>';  
+      foreach ($cursor as $obj) {
+	print_r($obj);
+	}
+      
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
+/*Retrieve an object from the mongo db using its image*/
+  function retrieve_from_mongo_image($conn, $database, $image){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('image.value' => $image);
+      
+      /*Execute query*/
+      $cursor = $collection->find($criteria);
+      
+      /*Print all documents to screen (If done correctly should only produce 1 result)*/
+      echo $cursor->count() . ' objects(s) found. <br/>';  
+      foreach ($cursor as $obj) {
+	print_r($obj);
+	}
+      
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+  
+  /*Retrieve an object from the mongo db using its url*/
+  function retrieve_from_mongo_url($conn, $database, $url){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $criteria = array('url.value' => $url);
+      
+      /*Execute query*/
+      $cursor = $collection->find($criteria);
+      
+      /*Print all documents to screen (If done correctly should only produce 1 result)*/
+      echo $cursor->count() . ' objects(s) found. <br/>';  
+      foreach ($cursor as $obj) {
+	print_r($obj);
+      }
+      
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
   /*END MONGODB FUNCTIONS*/
   /*End line of entire Class*/
 }
