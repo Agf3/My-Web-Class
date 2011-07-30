@@ -2,30 +2,13 @@
 
 include("../classes/class_thing_lib.php");
 
-try {
-  /*Open connection to MongoDB server*/
-  $connection = new Mongo('localhost');
-  
-  /*Access DB*/
-  $db = $connection->Recipe;
-  
-  /*Access Collection*/
-  $collection = $db->items;
+$thing = new Thing();
 
-  /*Retrieve all documents*/
-  $cursor = $collection->find();
-
-  /*Print all documents to screen*/
-  echo $cursor->count() . ' objects(s) found. <br/>';  
-  foreach ($cursor as $obj) {
-    print_r($obj);
-  }
-
-  /*Disconnect*/
-  $connection->close();
-} catch (MongoConnectionException $e) {
-  die('Error connecting to MongoDB server');
-} catch (MongoException $e) {
-  die('Error: ' . $e->getMessage());
-}
+/*All different retrieve functions*/
+//$thing->retrieve_all_from_mongo('localhost', 'Recipe');
+//$thing->retrieve_from_mongo_id('localhost', 'Recipe', '4e3449596b26e6d544000000');
+//$thing->retrieve_from_mongo_name('localhost', 'Recipe', 'Football');
+//$thing->retrieve_from_mongo_description('localhost', 'Recipe', "A Sport Played By Men");
+//$thing->retrieve_from_mongo_image('localhost', 'Recipe', "http://www.townsvillebulletin.com.au/images/uploadedfiles/editorial/pictures/2008/03/25/Hunt-hit.jpg");
+$thing->retrieve_from_mongo_url('localhost', 'Recipe', "http://www.cricket.com");
 ?>
