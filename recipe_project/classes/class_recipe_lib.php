@@ -6,10 +6,6 @@
  * A recipe is a specific type of creative work which is a specific type of thing
  */
 
-/*function __autoload($class_name){
-  include ('class_'.$class_name.'_lib.php');
-  }*/
-
 include("class_creativework_lib.php");
 
 class Recipe extends CreativeWork{

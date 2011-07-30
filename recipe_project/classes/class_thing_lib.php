@@ -6,7 +6,7 @@
 */
 
 function __autoload($class_name){
-  include ('class_'.$class_name.'_lib.php');
+  include ('class_'.strtolower($class_name).'_lib.php');
 }
 
 class Thing extends Tag{
@@ -296,6 +296,39 @@ class Thing extends Tag{
     
     return $html;
   }
+
+  /*START MONGODB FUNCTIONS*/
+  /*Turns the entire Thing into an array so it can be passed into a mongo db*/
+  function thing_to_array(){
+    $name['value'] = $this->get_name();
+    $name['tag'] = $this->get_name_tag();
+    $name['attributes'] = $this->get_name_attributes();
+    $name['form'] = $this->get_name_form();
+    
+    $description['value'] = $this->get_description();
+    $description['tag'] = $this->get_description_tag();
+    $description['attributes'] = $this->get_description_attributes();
+    $description['form'] = $this->get_description_form();
+
+    $image['value'] = $this->get_image();
+    $image['tag'] = $this->get_image_tag();
+    $image['attributes'] = $this->get_image_attributes();
+    $image['form'] = $this->get_image_form();
+
+    $url['value'] = $this->get_url();
+    $url['tag'] = $this->get_url_tag();
+    $url['attributes'] = $this->get_url_attributes();
+    $url['form'] = $this->get_url_form();
+
+    /*Create the full nested array for Thing*/
+    $thing['name'] = $name;
+    $thing['description'] = $description;
+    $thing['image'] = $image;
+    $thing ['url'] = $url;
+    
+    return $thing;
+  }
+  /*END MONGODB FUNCTIONS*/
   /*End line of entire Class*/
 }
 ?>

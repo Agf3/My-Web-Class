@@ -6,10 +6,6 @@
  * A creative work is a specific type of Thing
  */
 
-/*function __autoload($class_name){
-  include ('class_'.$class_name.'_lib.php';
-  }*/
-
 include('class_thing_lib.php');
 
 class CreativeWork extends Thing{
