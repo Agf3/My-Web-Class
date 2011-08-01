@@ -330,7 +330,8 @@ class Thing extends Tag{
 
   /*START MONGODB FUNCTIONS*/
   /*Turns the entire Thing into an array so it can be passed into a mongo db*/
-  function thing_to_array(){
+  function thing_to_array($update){
+
     $name['value'] = $this->get_name();
     $name['tag'] = $this->get_name_tag();
     $name['attributes'] = $this->get_name_attributes();
@@ -352,6 +353,9 @@ class Thing extends Tag{
     $url['form'] = $this->get_url_form();
 
     /*Create the full nested array for Thing*/
+    if($update == TRUE){
+      $thing['_id'] = $this->get_id();
+    }
     $thing['name'] = $name;
     $thing['description'] = $description;
     $thing['image'] = $image;
@@ -385,6 +389,8 @@ class Thing extends Tag{
 	/*Converts all the values from the mongo db into this Thing class*/
 	
 	foreach ($cursor as $obj) {
+	  //print_r($obj['_id']);
+	  //$idMongo = $obj['_id']->__toString();
 	  $this->set_id($obj['_id']);
 	 
 	  /*Grabs the arrays from mongo and places them into their own variables*/
@@ -888,8 +894,8 @@ class Thing extends Tag{
   /*START UPDATE*/
 
  /*Update an object from the mongo db using its id. The Thing must be updated prior to using this function*/
-  function upadte_from_mongo_id($conn, $database, $id){
-    
+  function update_to_mongo($conn, $database){
+
     try {
       /*Open connection to MongoDB server*/
       $connection = new Mongo($conn);
@@ -901,18 +907,20 @@ class Thing extends Tag{
       $collection = $db->items;
       
       /*What were searching for*/
-      $mongoID = new mongoId($id);
+      $mongoID = new mongoId($this->get_id());
       $criteria = array('_id' => $mongoID);
 
       /*Checks to see if it can first find the value before attempting to update it*/
-      $cursor = $collection->findOne($criteria); //Only want to update one value
+      $cursor = $collection->find($criteria); //Only want to update one value
+      //echo $cursor->count();
       if($cursor->count() != 0){
 	
 	/*Execute query*/
-	$cursor = $collection->save($this->thing_to_array());
+	$collection->save($this->thing_to_array(TRUE)); //TRUE means to include ID in array
 	
 	/*Print Update*/
-	echo "Updated Thing with ID: " .$criteria['_id'];
+	//echo "Updated Thing with ID: " .$criteria['_id'];
+
       }
       
       else{
