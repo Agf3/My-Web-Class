@@ -466,7 +466,7 @@ class Thing extends Tag{
       $this->set_id($item['_id']);
       //echo $this->get_id();
       /*Print to screen to show which item has been added*/
-      echo 'Inserted document with ID: ' . $item['_id'];
+      //echo 'Inserted document with ID: ' . $item['_id'];
       
       /*Disconnect*/
       $connection->close();
@@ -495,9 +495,10 @@ class Thing extends Tag{
       $cursor = $collection->find();
       
       /*Print all documents to screen*/
-      echo $cursor->count() . ' objects(s) found. <br/>';  
+      echo $cursor->count() . ' objects(s) found. <br/><br/>';  
       foreach ($cursor as $obj) {
 	print_r($obj);
+	echo "</br></br>";
       }
 
       /*Disconnect*/
@@ -531,7 +532,7 @@ class Thing extends Tag{
       $cursor = $collection->find($criteria);
       
       /*Print all documents to screen (If done correctly should only produce 1 result)*/
-      echo $cursor->count() . ' objects(s) found. <br/>';  
+      echo $cursor->count() . ' objects(s) found. <br/><br/>';  
       foreach ($cursor as $obj) {
 	print_r($obj);
 	}
@@ -566,7 +567,7 @@ class Thing extends Tag{
       $cursor = $collection->find($criteria);
       
       /*Print all documents to screen */
-      echo $cursor->count() . ' objects(s) found. <br/>';  
+      echo $cursor->count() . ' objects(s) found. <br/><br/>';  
       foreach ($cursor as $obj) {
 	print_r($obj);
       }
@@ -601,7 +602,7 @@ class Thing extends Tag{
       $cursor = $collection->find($criteria);
       
       /*Print all documents to screen*/
-      echo $cursor->count() . ' objects(s) found. <br/>';  
+      echo $cursor->count() . ' objects(s) found. <br/><br/>';  
       foreach ($cursor as $obj) {
 	print_r($obj);
 	}
@@ -636,7 +637,7 @@ class Thing extends Tag{
       $cursor = $collection->find($criteria);
       
       /*Print all documents to screen (If done correctly should only produce 1 result)*/
-      echo $cursor->count() . ' objects(s) found. <br/>';  
+      echo $cursor->count() . ' objects(s) found. <br/><br/>';  
       foreach ($cursor as $obj) {
 	print_r($obj);
 	}
@@ -671,7 +672,7 @@ class Thing extends Tag{
       $cursor = $collection->find($criteria);
       
       /*Print all documents to screen (If done correctly should only produce 1 result)*/
-      echo $cursor->count() . ' objects(s) found. <br/>';  
+      echo $cursor->count() . ' objects(s) found. <br/><br/>';  
       foreach ($cursor as $obj) {
 	print_r($obj);
       }
@@ -714,7 +715,7 @@ class Thing extends Tag{
 	$cursor = $collection->remove($criteria);
 	
 	/*Print Removal*/
-	echo "Removed Thing with ID: " .$criteria['_id'];
+	//echo "Removed Thing with ID: " .$criteria['_id'];
       }
       
       else{
