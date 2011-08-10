@@ -54,6 +54,30 @@ class Thing extends Tag{
     $this->id->value = $id;
   }
 
+
+/*START ALL*/
+  /*Set or change all the values with an option to change attributes*/
+  function set_all($name, $description, $image, $url, $var = NULL){
+    $this->set_name($name);
+    $this->set_description($description);
+    $this->set_image($image);
+    $this->set_url($url);
+
+    if($var != NULL){
+      $this->set_all_attributes($var);
+    }
+
+  }
+  
+  /*Set or change all of the attributes*/
+  function set_all_attributes($var){
+    $this->set_name_attributes($var);
+    $this->set_description_attributes($var);
+    $this->set_image_attributes($var);
+    $this->set_url_attributes($var);
+  }
+  /*END ALL*/
+
   /*START NAME*/
   /*Set or change the name of your Thing*/
   function set_name($name){
@@ -330,7 +354,7 @@ class Thing extends Tag{
 
   /*START MONGODB FUNCTIONS*/
   /*Turns the entire Thing into an array so it can be passed into a mongo db*/
-  function thing_to_array($update){
+  function to_array($update = FALSE){
 
     $name['value'] = $this->get_name();
     $name['tag'] = $this->get_name_tag();
@@ -443,8 +467,9 @@ class Thing extends Tag{
   }
 
   /*START CREATE*/
-  /*Insert array into the mongo db*/
-  function insert_to_mongo($conn, $database){
+  /*Insert array into the mongo db.
+    Object will most likely be in form of $this->to_array*/
+  function insert_to_mongo($conn, $database, $object){
 
     /*Attempt to insert the thing into my db*/
     try {
@@ -458,7 +483,7 @@ class Thing extends Tag{
       $collection = $db->items;
       
       /*Turn thing into an array then add to db*/
-      $item = $this->thing_to_array();
+      $item = $object;
       $collection->insert($item);
       
 
@@ -570,6 +595,7 @@ class Thing extends Tag{
       echo $cursor->count() . ' objects(s) found. <br/><br/>';  
       foreach ($cursor as $obj) {
 	print_r($obj);
+	echo "<br/><br/>";
       }
       
       
@@ -917,7 +943,7 @@ class Thing extends Tag{
       if($cursor->count() != 0){
 	
 	/*Execute query*/
-	$collection->save($this->thing_to_array(TRUE)); //TRUE means to include ID in array
+	$collection->save($this->to_array(TRUE)); //TRUE means to include ID in array
 	
 	/*Print Update*/
 	//echo "Updated Thing with ID: " .$criteria['_id'];
