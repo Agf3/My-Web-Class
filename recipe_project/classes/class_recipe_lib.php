@@ -136,6 +136,63 @@ class Recipe extends CreativeWork{
   }
   
   /*START SETTER METHODS*/
+  /*START ALL*/
+  /*Set or change all the values with an option to change attributes*/
+  function set_all($name, $description, $image, $url, $headline, $author, $awards, $keywords, $recipeCategory, $recipeCuisine, $cookingMethod, $prepTime, $cookTime, $totalTime, $recipeYield, $ingredients, $recipeInstructions, $var = NULL){
+    
+    $this->set_name($name);
+    $this->set_description($description);
+    $this->set_image($image);
+    $this->set_url($url);
+    
+    $this->set_headline($headline);
+    $this->set_author($author);
+    $this->set_awards($awards);
+    $this->set_keywords($keywords);
+    $this->set_date_published(date('M. d, Y'));
+    
+    $this->set_recipe_category($recipeCategory);
+    $this->set_recipe_cuisine($recipeCuisine);    
+    $this->set_cooking_method($cookingMethod);
+    $this->set_prep_time($prepTime);
+    $this->set_cook_time($cookTime);
+    $this->set_total_time($totalTime);
+    $this->set_recipe_yield($recipeYield);    
+    $this->set_ingredients($ingredients);
+    $this->set_recipe_instructions($recipeInstructions);
+    
+    if(!is_null($var)){
+      $this->set_all_attributes($var);
+    } 
+    
+  }
+  
+  /*Set or change all of the about attributes*/
+  function set_all_attributes($var){
+    $this->set_name_attributes($var);
+    $this->set_description_attributes($var);
+    $this->set_image_attributes($var);
+    $this->set_url_attributes($var);
+
+    $this->set_headline_attributes($var);
+    $this->set_author_attributes($var);
+    $this->set_awards_attributes($var);
+    $this->set_keywords_attributes($var);
+    $this->set_date_published_attributes($var);
+
+    $this->set_cook_time_attributes($var);
+    $this->set_cooking_method_attributes($var);
+    $this->set_ingredients_attributes($var);
+    $this->set_prep_time_attributes($var);
+    $this->set_recipe_category_attributes($var);
+    $this->set_recipe_cuisine_attributes($var);
+    $this->set_recipe_instructions_attributes($var);
+    $this->set_recipe_yield_attributes($var);
+    $this->set_total_time_attributes($var);
+
+  }
+  /*END ALL*/
+
   
   /*START COOK TIME*/
   /*Set or change the cooktime for your recipe*/
@@ -379,6 +436,11 @@ class Recipe extends CreativeWork{
   function get_ingredients(){
     return $this->ingredients->value;
   }
+
+  /*Retrieve the specific ingredient for your recipe.*/
+  function get_ingredients_index($index){
+    return $this->ingredients->value[$index];
+  }
   
   /*Retrieve the tag of the ingredients*/
   function get_ingredients_tag(){
@@ -393,6 +455,11 @@ class Recipe extends CreativeWork{
   /*Retrieve the form field type for the ingredients of your recipe*/
   function get_ingredients_form($form){
     return $this->ingredients->form->fieldtype;
+  }
+
+  /*Retrieve the number of ingredients*/
+  function get_ingredients_count(){
+    return count($this->ingredients->value);
   }
   /*END INGREDIENTS*/
   
@@ -587,7 +654,7 @@ class Recipe extends CreativeWork{
 
   /*Creates the full html tag for the ingredients*/
   protected function itemprop_ingredients(){
-    $this->set_tag($this->get_ingredients_tag(), $this->get_ingredients_attributes(), $this->get_ingredients());
+    $this->set_tag($this->get_ingredients_tag(), $this->get_ingredients_attributes(), $this->get_ingredients_index($index));
     return $this->get_tag();
   }
 
@@ -632,31 +699,173 @@ class Recipe extends CreativeWork{
     
     $html = $this->itemscope_open();
     $html .= $this->itemprop_headline()."</br>";
-    $html .= $this->itemprop_name()."</br>";
-    $html .= $this->itemprop_description()."</br>";
+    $html .= "<strong>Recipe Name:</strong> ".$this->itemprop_name()."</br>";
+    $html .= "<strong>Recipe Description:</strong> ".$this->itemprop_description()."</br>";
     $html .= $this->itemprop_image()."</br>";
-    $html .= $this->itemprop_url()."</br>";
-    $html .= $this->itemprop_author()."</br>";
-    $html .= $this->itemprop_awards()."</br>";
-    $html .= $this->itemprop_date_published();
-    $html .= $this->itemprop_language()."</br>";
-    $html .= $this->itemprop_keywords()."</br>";
-    $html .= $this->itemprop_recipe_category()."</br>";
-    $html .= $this->itemprop_recipe_cuisine()."</br>";
-    $html .= $this->itemprop_cooking_method()."</br>";
+    $html .= $this->itemprop_url()."</br></br>";
+    $html .= "<strong>Author:</strong> ".$this->itemprop_author()."</br></br>";
+    
+
+    $html .= "<strong>Awards:</strong> </br>";
+    $count = $this->get_awards_count();
+    for ($i = 0; $i < $count; $i++) {
+      $html .= $this->itemprop_awards($i)."</br>";
+    }
+
+    $html .="</br><strong>Keywords:</strong> </br>";
+    $count = $this->get_keywords_count();
+    for ($i = 0; $i < $count; $i++) {
+      $html .= $this->itemprop_keywords($i)."</br>";
+    }    
+    
+    $html .= "</br>";
+    $html .= "<strong>Recipe Category:</strong> ".$this->itemprop_recipe_category()."</br></br>";
+    $html .= "<strong>Recipe Cuisine:</strong> ".$this->itemprop_recipe_cuisine()."</br></br>";
+    $html .= "<strong>Cooking Method:</strong> ". $this->itemprop_cooking_method()."</br></br>";
+    
     $html .= $this->itemscope_nutrition_open();
-    $html .= $this->itemprop_ingredients();
+    $html .= "<strong>Ingredients:</strong> </br>";
+    $count = $this->get_ingredients_count();
+    for ($i = 0; $i < $count; $i++) {
+      $html .= $this->itemprop_keywords($i)."</br>";
+    }
     $html .= $this->itemscope_nutrition_close();
-    $html .= $this->itemprop_recipe_yield()."</br>";
-    $html .= $this->itemprop_prep_time()."</br>";
-    $html .= $this->itemprop_cook_time()."</br>";
-    $html .= $this->itemprop_total_time()."</br>";
-    $html .= $this->itemprop_recipe_instructions()."</br>";
+    
+    $html .= "</br>";
+    $html .= "<strong>Prep Time:</strong> ".$this->itemprop_prep_time()."</br></br>";
+    $html .= "<strong>Cook Time:</strong> ".$this->itemprop_cook_time()."</br></br>";
+    $html .= "<strong>Total Time:</strong> ".$this->itemprop_total_time()."</br></br>";
+    $html .= "<strong>Recipe Yield:</strong> ".$this->itemprop_recipe_yield()."</br></br>";    
+    $html .= "<strong>Recipe Instructions:</strong> </br>".$this->itemprop_recipe_instructions()."</br>";
     $html .= $this->itemscope_close();
     return $html;
     
   }
   /*END PRINTING FUNCTIONS*/
+
+  /*START MONGODB FUNCTIONS*/
+ /*Turns the entire Thing into an array so it can be passed into a mongo db*/
+  function to_array($update = FALSE){
+
+    $name['value'] = $this->get_name();
+    $name['tag'] = $this->get_name_tag();
+    $name['attributes'] = $this->get_name_attributes();
+    $name['form'] = $this->get_name_form();
+    
+    $description['value'] = $this->get_description();
+    $description['tag'] = $this->get_description_tag();
+    $description['attributes'] = $this->get_description_attributes();
+    $description['form'] = $this->get_description_form();
+
+    $image['value'] = $this->get_image();
+    $image['tag'] = $this->get_image_tag();
+    $image['attributes'] = $this->get_image_attributes();
+    $image['form'] = $this->get_image_form();
+
+    $url['value'] = $this->get_url();
+    $url['tag'] = $this->get_url_tag();
+    $url['attributes'] = $this->get_url_attributes();
+    $url['form'] = $this->get_url_form();
+
+    $headline['value'] = $this->get_headline();
+    $headline['tag'] = $this->get_headline_tag();
+    $headline['attributes'] = $this->get_headline_attributes();
+    $headline['form'] = $this->get_headline_form();
+
+    $author['value'] = $this->get_author();
+    $author['tag'] = $this->get_author_tag();
+    $author['attributes'] = $this->get_author_attributes();
+    $author['form'] = $this->get_author_form();
+    
+    $awards['value'] = $this->get_awards();
+    $awards['tag'] = $this->get_awards_tag();
+    $awards['attributes'] = $this->get_awards_attributes();
+    $awards['form'] = $this->get_awards_form();
+
+    $keywords['value'] = $this->get_keywords();
+    $keywords['tag'] = $this->get_keywords_tag();
+    $keywords['attributes'] = $this->get_keywords_attributes();
+    $keywords['form'] = $this->get_keywords_form();
+
+    $datePublished['value'] = $this->get_date_published();
+    $datePublished['tag'] = $this->get_date_published_tag();
+    $datePublished['attributes'] = $this->get_date_published_attributes();
+    $datePublished['form'] = $this->get_date_published_form();
+
+    $recipeCategory['value'] = $this->get_recipe_category();
+    $recipeCategory['tag'] = $this->get_recipe_category_tag();
+    $recipeCategory['attributes'] = $this->get_recipe_category_attributes();
+    $recipeCategory['form'] = $this->get_recipe_category_form();
+
+    $recipeCuisine['value'] = $this->get_recipe_cuisine();
+    $recipeCuisine['tag'] = $this->get_recipe_cuisine_tag();
+    $recipeCuisine['attributes'] = $this->get_recipe_cuisine_attributes();
+    $recipeCuisine['form'] = $this->get_recipe_cuisine_form();
+
+    $cookingMethod['value'] = $this->get_cooking_method();
+    $cookingMethod['tag'] = $this->get_cooking_method_tag();
+    $cookingMethod['attributes'] = $this->get_cooking_method_attributes();
+    $cookingMethod['form'] = $this->get_cooking_method_form();
+
+    $prepTime['value'] = $this->get_prep_time();
+    $prepTime['tag'] = $this->get_prep_time_tag();
+    $prepTime['attributes'] = $this->get_prep_time_attributes();
+    $prepTime['form'] = $this->get_prep_time_form();
+
+    $cookTime['value'] = $this->get_cook_time();
+    $cookTime['tag'] = $this->get_cook_time_tag();
+    $cookTime['attributes'] = $this->get_cook_time_attributes();
+    $cookTime['form'] = $this->get_cook_time_form();
+
+    $totalTime['value'] = $this->get_total_time();
+    $totalTime['tag'] = $this->get_total_time_tag();
+    $totalTime['attributes'] = $this->get_total_time_attributes();
+    $totalTime['form'] = $this->get_total_time_form();
+
+    $recipeYield['value'] = $this->get_recipe_yield();
+    $recipeYield['tag'] = $this->get_recipe_yield_tag();
+    $recipeYield['attributes'] = $this->get_recipe_yield_attributes();
+    $recipeYield['form'] = $this->get_recipe_yield_form();
+    
+    $ingredients['value'] = $this->get_ingredients();
+    $ingredients['tag'] = $this->get_ingredients_tag();
+    $ingredients['attributes'] = $this->get_ingredients_attributes();
+    $ingredients['form'] = $this->get_ingredients_form();
+    
+    $recipeInstructions['value'] = $this->get_recipe_instructions();
+    $recipeInstructions['tag'] = $this->get_recipe_instructions_tag();
+    $recipeInstructions['attributes'] = $this->get_recipe_instructions_attributes();
+    $recipeInstructions['form'] = $this->get_recipe_instructions_form();
+
+    /*Create the full nested array for Thing*/
+    if($update == TRUE){
+      $thing['_id'] = $this->get_id();
+    }
+
+    $thing['name'] = $name;
+    $thing['description'] = $description;
+    $thing['image'] = $image;
+    $thing ['url'] = $url;
+
+    $thing ['headline'] = $headline;
+    $thing ['author'] = $author;
+    $thing ['awards'] = $awards;
+    $thing ['keywords'] = $keywords;
+    $thing ['datePublished'] = $datePublished;
+
+    $thing ['recipeCategory'] = $recipeCategory;
+    $thing ['recipeCuisine'] = $recipeCuisine;
+    $thing ['cookingMethod'] = $cookingMethod;
+    $thing ['prepTime'] = $prepTime;
+    $thing ['cookTime'] = $cookTime;
+    $thing ['totalTime'] = $totalTime;
+    $thing ['recipeYield'] = $recipeYield;
+    $thing ['ingredients'] = $ingredients;
+    $thing ['recipeInstructions'] = $recipeInstructions;
+    
+    return $thing;
+  }
+  /*END MONGODB FUNCTIONS*/
 
   /* End line of entire class*/
 }
