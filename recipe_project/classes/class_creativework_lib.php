@@ -10,22 +10,23 @@ include('class_thing_lib.php');
 
 class CreativeWork extends Thing{
   
+  /*I have only enabled the attributes Im going to use for my Creative Work*/
   //protected $aggregateRating;
   //protected $audio;
   protected $author;
   protected $awards;
   //protected $contentLocation;
-  protected $contentRating;
+  //protected $contentRating;
   protected $datePublished;
-  protected $editor;
+  //protected $editor;
   //protected $encodings;
-  protected $genre;
+  //protected $genre;
   protected $headline;
-  protected $inLanguage;
+  //protected $inLanguage;
   //protected $interactionCount;
-  protected $isFamilyFriendly;
+  //protected $isFamilyFriendly;
   protected $keywords;
-  protected $publisher;
+  //protected $publisher;
   //protected $reviews;
   //protected $video;
   private $itemtype = "http://www.schema.org/CreativeWorks";
@@ -80,10 +81,10 @@ class CreativeWork extends Thing{
     $this->contentLocation->tag->attributes['itemprop'] = 'contentLocation';
     $this->contentLocation->form->fieldtype = 'text';*/
     
-    $this->contentRating->tag->tagType = 'span';
+    /*$this->contentRating->tag->tagType = 'span';
     $this->contentRating->tag->attributes['class'] = get_class($this) . ' contentRating';
     $this->contentRating->tag->attributes['itemprop'] = 'contentRating';
-    $this->contentRating->form->fieldtype = 'text';
+    $this->contentRating->form->fieldtype = 'text';*/
     
     $this->datePublished->tag->tagType = 'meta';
     $this->datePublished->tag->attributes['class'] = get_class($this) . ' datePublished';
@@ -91,40 +92,40 @@ class CreativeWork extends Thing{
     $this->datePublished->tag->attributes['content'] = date('Y-m-d');
     $this->datePublished->form->fieldtype = 'text';
     
-    $this->editor->tag->tagType = 'span';
+    /*$this->editor->tag->tagType = 'span';
     $this->editor->tag->attributes['class'] = get_class($this) . ' editor';
     $this->editor->tag->attributes['itemprop'] = 'editor';
-    $this->editor->form->fieldtype = 'text';
+    $this->editor->form->fieldtype = 'text';*/
     
     /*$this->encodings->tag->tagType = 'div';
     $this->encodings->tag->attributes['class'] = get_class($this) . ' encodings';
     $this->encodings->tag->attributes['itemprop'] = 'encodings';
     $this->encodings->form->fieldtype = 'text';*/
 
-    $this->genre->tag->tagType = 'span';
+    /*$this->genre->tag->tagType = 'span';
     $this->genre->tag->attributes['class'] = get_class($this) . ' genre';
     $this->genre->tag->attributes['itemprop'] = 'genre';
-    $this->genre->form->fieldtype = 'text';
+    $this->genre->form->fieldtype = 'text';*/
     
-    $this->headline->tag->tagType = 'span';
+    $this->headline->tag->tagType = 'h2';
     $this->headline->tag->attributes['class'] = get_class($this) . ' headline';
     $this->headline->tag->attributes['itemprop'] = 'headline';
     $this->headline->form->fieldtype = 'text';
     
-    $this->inLanguage->tag->tagType = 'span';
+    /*$this->inLanguage->tag->tagType = 'span';
     $this->inLanguage->tag->attributes['class'] = get_class($this) . ' inLanguage';
     $this->inLanguage->tag->attributes['itemprop'] = 'inLanguage';
-    $this->inLanguage->form->fieldtype = 'text';
+    $this->inLanguage->form->fieldtype = 'text';*/
     
     /* $this->interactionCount->tag->tagType = 'meta';
     $this->interactionCount->tag->attributes['class'] = get_class($this) . ' interactionCount';
     $this->interactionCount->tag->attributes['itemprop'] = 'interactionCount';
     $this->interactionCount->form->fieldtype = 'text';*/
     
-    $this->isFamilyFriendly->tag->tagType = 'span';
+    /*$this->isFamilyFriendly->tag->tagType = 'span';
     $this->isFamilyFriendly->tag->attributes['class'] = get_class($this) . ' isFamilyFriendly';
     $this->isFamilyFriendly->tag->attributes['itemprop'] = 'isFamilyFriendly';
-    $this->isFamilyFriendly->form->fieldtype = 'text';
+    $this->isFamilyFriendly->form->fieldtype = 'text';*/
     
     $this->keywords->tag->tagType = 'span';
     $this->keywords->tag->attributes['class'] = get_class($this) . ' keywords';
@@ -136,42 +137,57 @@ class CreativeWork extends Thing{
     $this->offers->tag->attributes['itemprop'] = 'offers';
     $this->offers->form->fieldtype = 'text';*/
     
-    $this->publisher->tag->tagType = 'div';
+    /*$this->publisher->tag->tagType = 'div';
     $this->publisher->tag->attributes['class'] = get_class($this) . ' publisher';
     $this->publisher->tag->attributes['itemprop'] = 'publisher';
-    $this->publisher->form->fieldtype = 'text';
+    $this->publisher->form->fieldtype = 'text';*/
     
-    $this->reviews->tag->tagType = 'div';
+    /*$this->reviews->tag->tagType = 'div';
     $this->reviews->tag->attributes['class'] = get_class($this) . ' reviews';
     $this->reviews->tag->attributes['itemprop'] = 'reviews';
-    $this->reviews->form->fieldtype = 'text';
+    $this->reviews->form->fieldtype = 'text';*/
     
-    $this->video->tag->tagType = 'div';
+    /*$this->video->tag->tagType = 'div';
     $this->video->tag->attributes['class'] = get_class($this) . ' video';
     $this->video->tag->attributes['itemprop'] = 'video';
-    $this->video->form->fieldtype = 'text';
+    $this->video->form->fieldtype = 'text';*/
   }
   
 
   /*START OF SETTER FUNCTIONS*/
   
-/*START ABOUT*/
-  /*Set or change all the values for about which includes name, description, image & url*/
-  function set_about($name, $description, $image, $url){
+/*START ALL*/
+  /*Set or change all the values with an option to change attributes*/
+  function set_all($name, $description, $image, $url, $headline, $author, $awards, $keywords, $var = NULL){
     $this->set_name($name);
     $this->set_description($description);
     $this->set_image($image);
     $this->set_url($url);
+    $this->set_headline($headline);
+    $this->set_author($author);
+    $this->set_awards($awards);
+    $this->set_keywords($keywords);
+    $this->set_date_published(date('M. d, Y'));
+    
+    if($var != NULL){
+      $this->set_all_attributes($var);
+    } 
+
   }
   
-  /*Set or change all of the about attributes which includes name, description, image & url*/
-  function set_about_attributes($var){
+  /*Set or change all of the about attributes*/
+  function set_all_attributes($var){
     $this->set_name_attributes($var);
     $this->set_description_attributes($var);
     $this->set_image_attributes($var);
     $this->set_url_attributes($var);
+    $this->set_headline_attributes($var);
+    $this->set_author_attributes($var);
+    $this->set_awards_attributes($var);
+    $this->set_keywords_attributes($var);
+    $this->set_date_published_attributes($var);
   }
-  /*END ABOUT*/
+  /*END ALL*/
 
   /*Set or change the aggregate rating of your creative work.
   function set_aggregate_rating($aggRating){
@@ -422,7 +438,7 @@ class CreativeWork extends Thing{
   
   /*START OF GETTER FUNCTIONS*/
   
- /*Retrieve the about of your creative work.*/
+ /*Retrieve the about of your creative work. This includes name, description, image & url*/
   function get_about(){
     return $this->about->value;
   }
@@ -465,6 +481,11 @@ class CreativeWork extends Thing{
     return $this->awards->value;
   }
 
+  /*Retrieve the specific award for your creative work.*/
+  function get_awards_index($index){
+    return $this->awards->value[$index];
+  }
+  
   /*Retrieve the tag of the awards of your creative work*/
   function get_awards_tag(){
     return $this->author->tag->tagType;
@@ -476,15 +497,20 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the awards of your creative work*/
-  function get_awards_form($form){
+  function get_awards_form(){
     return $this->awards->form->fieldtype;
+  }
+  
+  /*Retrieve the number of awards*/
+  function get_awards_count(){
+    return count($this->awards->value);
   }
   /*END AWARDS*/
   
   /*Retrieve the content location for your creative work.
-  function get_content_location(){
+    function get_content_location(){
     return $this->contentLocation->value;
-  }*/
+    }*/
   
   /*START CONTENT RATING*/
   /*Retrieve the content rating for your creative work.*/
@@ -503,17 +529,17 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the content rating of your creative work*/
-  function get_content_rating_form($form){
+  function get_content_rating_form(){
     return $this->contentRating->form->fieldtype;
   }
   /*END CONTENT RATING*/
-
+  
   /*START DATE PUBLISHED*/
   /*Retrieve the date published of your creative work.*/
   function get_date_published(){
     return $this->datePublished->value;
   }
-
+  
   /*Retrieve the tag of the date published of your creative work*/
   function get_date_published_tag(){
     return $this->datePublished->tag->tagType;
@@ -525,7 +551,7 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the date published of your creative work*/
-  function get_date_published_form($form){
+  function get_date_published_form(){
     return $this->datePublished->form->fieldtype;
   }
   /*END DATE PUBLISHED*/
@@ -535,7 +561,7 @@ class CreativeWork extends Thing{
   function get_editor(){
     return $this->editor->value;
   }
-
+  
   /*Retrieve the tag of the editor of your creative work*/
   function get_editor_tag(){
     return $this->editor->tag->tagType;
@@ -547,7 +573,7 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the editor of your creative work*/
-  function get_editor_form($form){
+  function get_editor_form(){
     return $this->editor->form->fieldtype;
   }
   /*END EDITOR*/
@@ -574,7 +600,7 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the genre of your creative work*/
-  function get_genre_form($form){
+  function get_genre_form(){
     return $this->genre->form->fieldtype;
   }
   /*END GENRE*/
@@ -596,7 +622,7 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the headline of your creative work*/
-  function get_headline_form($form){
+  function get_headline_form(){
     return $this->headline->form->fieldtype;
   }
   /*END HEADLINE*/
@@ -618,7 +644,7 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the language of your creative work*/
-  function get_language_form($form){
+  function get_language_form(){
     return $this->inLanguage->form->fieldtype;
   }
   /*END LANGUAGE*/
@@ -646,7 +672,7 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the family friendly of your creative work*/
-  function get_family_friendly_form($form){
+  function get_family_friendly_form(){
     return $this->isFamilyFriendly->form->fieldtype;
   }
   /*END FAMILY FRIENDLY*/
@@ -655,6 +681,11 @@ class CreativeWork extends Thing{
   /*Retrieve the keywords for your creative work.*/
   function get_keywords(){
     return $this->keywords->value;
+  }
+
+  /*Retrieve the specific keyword for your creative work.*/
+  function get_keywords_index($index){
+    return $this->keywords->value[$index];
   }
 
   /*Retrieve the tag of the keywords of your creative work*/
@@ -668,8 +699,13 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the keywords of your creative work*/
-  function get_keywords_form($form){
+  function get_keywords_form(){
     return $this->keywords->form->fieldtype;
+  }
+
+ /*Retrieve the number of keywords*/
+  function get_keywords_count(){
+    return count($this->keywords->value);
   }
   /*END KEYWORDS*/
 
@@ -690,7 +726,7 @@ class CreativeWork extends Thing{
   }
   
   /*Retrieve the form field type for the publisher of your creative work*/
-  function get_publisher_form($form){
+  function get_publisher_form(){
     return $this->publisher->form->fieldtype;
   }
   /*END PUBLISHER*/
@@ -722,12 +758,14 @@ class CreativeWork extends Thing{
   }
 
  /*Creates the full html tag for the awards*/
-  protected function itemprop_awards(){
-    $this->set_tag($this->get_awards_tag(), $this->get_awards_attributes(), $this->get_awards());
+  protected function itemprop_awards($index){
+    
+    $this->set_tag($this->get_awards_tag(), $this->get_awards_attributes(), $this->get_awards_index($index));
+    
     return $this->get_tag();
   }
-
- /*Creates the full html tag for the content rating*/
+  
+  /*Creates the full html tag for the content rating*/
   protected function itemprop_content_rating(){
     $this->set_tag($this->get_content_rating_tag(), $this->get_content_rating_attributes(), $this->get_content_rating());
     return $this->get_tag();
@@ -770,8 +808,8 @@ class CreativeWork extends Thing{
   }
 
  /*Creates the full html tag for the keywords*/
-  protected function itemprop_keywords(){
-    $this->set_tag($this->get_keywords_tag(), $this->get_keywords_attributes(), $this->get_keywords());
+  protected function itemprop_keywords($index){
+    $this->set_tag($this->get_keywords_tag(), $this->get_keywords_attributes(), $this->get_keywords_index($index));
     return $this->get_tag();
   }
 
@@ -785,26 +823,98 @@ class CreativeWork extends Thing{
   function print_schema(){
     
     $html = $this->itemscope_open()."</br>";
+    $html .= $this->itemprop_headline()."</br>";
     $html .= $this->itemprop_name()."</br>";
     $html .= $this->itemprop_description()."</br>";
     $html .= $this->itemprop_image()."</br>";
     $html .= $this->itemprop_url()."</br>";
     $html .= $this->itemprop_author()."</br>";
-    $html .= $this->itemprop_awards()."</br>";
-    $html .= $this->itemprop_content_rating()."</br>";
-    $html .= $this->itemprop_date_published()."</br>";
-    $html .= $this->itemprop_editor()."</br>";
-    $html .= $this->itemprop_genre()."</br>";
-    $html .= $this->itemprop_headline()."</br>";
-    $html .= $this->itemprop_language()."</br>";
-    $html .= $this->itemprop_family_friendly()."</br>";
-    $html .= $this->itemprop_keywords()."</br>";
-    $html .= $this->itemprop_publisher()."</br>";
+    
+    $count = $this->get_awards_count();
+    for ($i = 0; $i < $count; $i++) {
+    $html .= $this->itemprop_awards($i)."</br>";
+    }
+    
+    $count = $this->get_keywords_count();
+    for ($i = 0; $i < $count; $i++) {
+      $html .= $this->itemprop_keywords($i)."</br>";
+    }    
+    
+    $html .= $this->itemprop_date_published();
     $html .= $this->itemscope_close()."</br>";
     return $html;
     
   }
   /*END PRINTING FUNCTIONS*/
+
+  /*START MONGODB FUNCTIONS*/
+  /*Turns the entire Thing into an array so it can be passed into a mongo db*/
+  function to_array($update = FALSE){
+    
+    $name['value'] = $this->get_name();
+    $name['tag'] = $this->get_name_tag();
+    $name['attributes'] = $this->get_name_attributes();
+    $name['form'] = $this->get_name_form();
+    
+    $description['value'] = $this->get_description();
+    $description['tag'] = $this->get_description_tag();
+    $description['attributes'] = $this->get_description_attributes();
+    $description['form'] = $this->get_description_form();
+
+    $image['value'] = $this->get_image();
+    $image['tag'] = $this->get_image_tag();
+    $image['attributes'] = $this->get_image_attributes();
+    $image['form'] = $this->get_image_form();
+
+    $url['value'] = $this->get_url();
+    $url['tag'] = $this->get_url_tag();
+    $url['attributes'] = $this->get_url_attributes();
+    $url['form'] = $this->get_url_form();
+
+    $headline['value'] = $this->get_headline();
+    $headline['tag'] = $this->get_headline_tag();
+    $headline['attributes'] = $this->get_headline_attributes();
+    $headline['form'] = $this->get_headline_form();
+
+    $author['value'] = $this->get_author();
+    $author['tag'] = $this->get_author_tag();
+    $author['attributes'] = $this->get_author_attributes();
+    $author['form'] = $this->get_author_form();
+    
+    $awards['value'] = $this->get_awards();
+    $awards['tag'] = $this->get_awards_tag();
+    $awards['attributes'] = $this->get_awards_attributes();
+    $awards['form'] = $this->get_awards_form();
+
+    $keywords['value'] = $this->get_keywords();
+    $keywords['tag'] = $this->get_keywords_tag();
+    $keywords['attributes'] = $this->get_keywords_attributes();
+    $keywords['form'] = $this->get_keywords_form();
+
+    $datePublished['value'] = $this->get_date_published();
+    $datePublished['tag'] = $this->get_date_published_tag();
+    $datePublished['attributes'] = $this->get_date_published_attributes();
+    $datePublished['form'] = $this->get_date_published_form();
+
+    /*Create the full nested array for Thing*/
+    if($update == TRUE){
+      $thing['_id'] = $this->get_id();
+    }
+
+    $thing['name'] = $name;
+    $thing['description'] = $description;
+    $thing['image'] = $image;
+    $thing ['url'] = $url;
+    $thing ['headline'] = $headline;
+    $thing ['author'] = $author;
+    $thing ['awards'] = $awards;
+    $thing ['keywords'] = $keywords;
+    $thing ['datePublished'] = $datePublished;
+    
+    return $thing;
+  }
+  /*END MONGODB FUNCTIONS*/
+  
 
   /* End line of entire class*/
 }
