@@ -389,7 +389,7 @@ class Thing extends Tag{
   }
   
   /*Retrieves an object from the mongo db & turns it into a thing*/
-  function mongo_to_thing($conn, $database, $id){
+  function mongo_to_array($conn, $database, $id){
     
     try {
       /*Open connection to MongoDB server*/
@@ -922,7 +922,7 @@ class Thing extends Tag{
 
  /*Update an object from the mongo db using its id. The Thing must be updated prior to using this function*/
   function update_to_mongo($conn, $database){
-
+    
     try {
       /*Open connection to MongoDB server*/
       $connection = new Mongo($conn);
@@ -947,11 +947,11 @@ class Thing extends Tag{
 	
 	/*Print Update*/
 	//echo "Updated Thing with ID: " .$criteria['_id'];
-
+	
       }
       
       else{
-      echo "No such Thing with ID: ".$id;
+	echo "No such Thing with ID: ".$id;
       }
       
       /*Disconnect*/
@@ -962,8 +962,8 @@ class Thing extends Tag{
       die('Error: ' . $e->getMessage());
     } 
   }
-
-
+  
+  
   /*END UPDATE*/
   /*END MONGODB FUNCTIONS*/
   /*End line of entire Class*/
