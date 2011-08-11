@@ -41,5 +41,5 @@ print_r($thing->print_schema());
 $thing->insert_to_mongo('localhost','Recipe', $thing->to_array());
 echo "</br><strong>Your unique ID: ".$thing->get_id()."</br>";
 echo "<h1>The MongoDB Array For Your Thing</h1></br>";
-$thing->retrieve_from_mongo_name('localhost', 'Recipe', $thing->get_name());
+$thing->retrieve_from_mongo_id('localhost', 'Recipe', $thing->get_id());
 ?>
