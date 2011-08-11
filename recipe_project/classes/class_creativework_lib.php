@@ -212,6 +212,11 @@ class CreativeWork extends Thing{
     $this->name->tag->attributes['itemprop'] = 'author';
   }
 
+  /*Set or change the tag for the author of your creative work*/
+  function set_author_tag($tag){
+    $this->author->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the author of your creative work*/
   function set_author_form($form){
     $this->author->form->fieldtype = $form;
@@ -229,6 +234,11 @@ class CreativeWork extends Thing{
     $class = get_class($this) . ' awards ' . $var;
     $this->awards->tag->attributes['class'] = $class;
     $this->awards->tag->attributes['itemprop'] = 'awards';
+  }
+
+  /*Set or change the tag for the awards of your creative work*/
+  function set_awards_tag($tag){
+    $this->awards->tag->tagType = $tag;
   }
   
   /*Set or change the form field for the awards of your creative work*/
@@ -255,6 +265,11 @@ class CreativeWork extends Thing{
     $this->contentRating->tag->attributes['itemprop'] = 'contentRating';
   }
   
+/*Set or change the tag for the content rating of your creative work*/
+  function set_content_rating_tag($tag){
+    $this->contentRating->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the content rating of your creative work*/
   function set_content_rating_form($form){
     $this->contentRating->form->fieldtype = $form;
@@ -275,6 +290,11 @@ class CreativeWork extends Thing{
     $this->datePublished->tag->attributes['content'] = date('Y-m-d');
   }
   
+  /*Set or change the tag for the date published of your creative work*/
+  function set_date_published_tag($tag){
+    $this->datePublished->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the content rating of your creative work*/
   function set_date_published_form($form){
     $this->datePublished->form->fieldtype = $form;
@@ -294,6 +314,11 @@ class CreativeWork extends Thing{
     $this->editor->tag->attributes['itemprop'] = 'editor';
   }
   
+  /*Set or change the tag for the editor of your creative work*/
+  function set_ediotr_tag($tag){
+    $this->editor->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the editor of your creative work*/
   function set_editor_form($form){
     $this->editor->form->fieldtype = $form;
@@ -318,6 +343,11 @@ class CreativeWork extends Thing{
     $this->genre->tag->attributes['itemprop'] = 'genre';
   }
   
+  /*Set or change the tag for the genre of your creative work*/
+  function set_genre_tag($tag){
+    $this->genre->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the genre of your creative work*/
   function set_genre_form($form){
     $this->genre->form->fieldtype = $form;
@@ -337,6 +367,11 @@ class CreativeWork extends Thing{
     $this->headline->tag->attributes['itemprop'] = 'headline';
   }
   
+  /*Set or change the tag for the headline of your creative work*/
+  function set_headline_tag($tag){
+    $this->headline->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the headline of your creative work*/
   function set_headline_form($form){
     $this->headline->form->fieldtype = $form;
@@ -356,6 +391,11 @@ class CreativeWork extends Thing{
     $this->inLanguage->tag->attributes['itemprop'] = 'inLanguage';
   }
   
+  /*Set or change the tag for the language of your creative work*/
+  function set_language_tag($tag){
+    $this->inLanguage->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the language of your creative work*/
   function set_language_form($form){
     $this->inLanguage->form->fieldtype = $form;
@@ -382,6 +422,11 @@ class CreativeWork extends Thing{
     $this->isFamilyFriendly->tag->attributes['itemprop'] = 'isFamilyFriendly';
   }
   
+/*Set or change the tag for the whether your creative work is family friend*/
+  function set_family_friendly_tag($tag){
+    $this->isFamilyFriendly->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the family friendly tag*/
   function set_family_friendly_form($form){
     $this->isFamilyFriendly->form->fieldtype = $form;
@@ -400,6 +445,11 @@ class CreativeWork extends Thing{
     $this->keywords->tag->attributes['class'] = $class;
     $this->keywords->tag->attributes['itemprop'] = 'keywords';
   }
+
+/*Set or change the tag for the keywords of your creative work*/
+  function set_keywords_tag($tag){
+    $this->keywords->tag->tagType = $tag;
+  }
   
   /*Set or change the form field for the keywords of your creative work*/
   function set_keywords_form($form){
@@ -417,6 +467,11 @@ class CreativeWork extends Thing{
     $class = get_class($this) . ' editor ' . $var;
     $this->publisher->tag->attributes['class'] = $class;
     $this->publisher->tag->attributes['itemprop'] = 'publisher';
+  }
+
+  /*Set or change the tag for the publisher of your creative work*/
+  function set_publisher_tag($tag){
+    $this->publisher->tag->tagType = $tag;
   }
   
   /*Set or change the form field for the publisher of your creative work*/

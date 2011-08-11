@@ -207,6 +207,11 @@ class Recipe extends CreativeWork{
     $this->cookTime->attributes['itemprop'] = 'cookTime';
   }
 
+  /*Set or change the tag for the cook time of your recipe*/
+  function set_cook_time_tag($tag){
+    $this->cookTime->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the cooktime of your recipe*/
   function set_cook_time_form($form){
     $this->cookTime->form->fieldtype = $form;
@@ -227,6 +232,11 @@ class Recipe extends CreativeWork{
     $this->cookingMethod->attributes['itemprop'] = 'cookingMethod';
   }
 
+  /*Set or change the tag for the cooking method of your recipe*/
+  function set_cooking_method_tag($tag){
+    $this->cookingMethod->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the cooking method of your recipe*/
   function set_cooking_method_form($form){
     $this->cookingMethod->form->fieldtype = $form;
@@ -244,6 +254,11 @@ class Recipe extends CreativeWork{
     $class = get_class($this) . ' ingredients ' . $var;
     $this->ingredients->attributes['class'] = $class;
     $this->ingredients->attributes['itemprop'] = 'ingredients';    
+  }
+
+  /*Set or change the tag for the ingredients of your recipe*/
+  function set_ingredients_tag($tag){
+    $this->ingredients->tag->tagType = $tag;
   }
 
   /*Set or change the form field for the ingredients of your recipe*/
@@ -284,6 +299,11 @@ class Recipe extends CreativeWork{
     $this->prepTime->attributes['itemprop'] = 'prepTime';
   }
 
+  /*Set or change the tag for the prep time of your recipe*/
+  function set_prep_time_tag($tag){
+    $this->prepTime->tag->tagType = $tag;
+  }
+
 /*Set or change the form field for the prep time of your recipe*/
   function set_prep_time_form($form){
     $this->prepTime->form->fieldtype = $form;
@@ -296,10 +316,16 @@ class Recipe extends CreativeWork{
     $this->recipeCategory->value = $recipeCategory;
   }
   
+  /*Set or change the attributes for the recipe category*/
   function set_recipe_category_attributes($var){
     $class = get_class($this) . ' recipeCategory ' . $var;
     $this->recipeCategory->attributes['class'] = $class;
     $this->recipeCategory->attributes['itemprop'] = 'recipeCategory';    
+  }
+
+  /*Set or change the tag for the recipe category of your recipe*/
+  function set_recipe_category_tag($tag){
+    $this->recipeCategory->tag->tagType = $tag;
   }
 
   /*Set or change the form field for the recipe category*/
@@ -321,6 +347,11 @@ class Recipe extends CreativeWork{
     $this->recipeCuisine->attributes['itemprop'] = 'recipeCuisine';
   }
 
+  /*Set or change the tag for the recipe cuisine of your recipe*/
+  function set_recipe_cuisine_tag($tag){
+    $this->recipeCuisine->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the recipe cuisine*/
   function set_recipe_cuisine_form($form){
     $this->recipeCuisine->form->fieldtype = $form;
@@ -337,9 +368,13 @@ class Recipe extends CreativeWork{
   function set_recipe_instructions_attributes($var) {
     $class = get_class($this) . ' recipeInstructions ' . $var;
     $this->recipeInstructions->attributes['class'] = $class;
-    $this->recipeInstructions->attributes['itemprop'] = 'recipeInstructions';    
-  }
+    $this->recipeInstructions->attributes['itemprop'] = 'recipeInstructions';   }
   
+/*Set or change the tag for the recipe instructions of your recipe*/
+  function set_recipe_instructions_tag($tag){
+    $this->recipeInstructions->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the instructions of your recipe*/
   function set_recipe_instructions_form($form){
     $this->recipeInstructions->form->fieldtype = $form;
@@ -359,6 +394,11 @@ class Recipe extends CreativeWork{
     $this->recipeYield->attributes['itemprop'] = 'recipeYield';
   }
 
+  /*Set or change the tag for the recipe yield of your recipe*/
+  function set_recipe_yield_tag($tag){
+    $this->recipeYield->tag->tagType = $tag;
+  }
+
   /*Set or change the form field for the recipe yield*/
   function set_recipe_yield_form($form){
     $this->recipeYield->form->fieldtype = $form;
@@ -371,10 +411,16 @@ class Recipe extends CreativeWork{
     $this->totalTime->value = $totalTime;
   }
   
+  /*Set or change the attributes for total time*/
   function set_total_time_attributes($var){
     $class = get_class($this) . ' totalTime ' . $var;
     $this->totalTime->attributes['class'] = $class;
     $this->totalTime->attributes['itemprop'] = 'totalTime';
+  }
+
+  /*Set or change the tag for the total time of your recipe*/
+  function set_total_time_tag($tag){
+    $this->totalTime->tag->tagType = $tag;
   }
 
   /*Set or change the form field for the total time of your recipe*/
@@ -723,6 +769,11 @@ class Recipe extends CreativeWork{
     $html .= "<strong>Recipe Cuisine:</strong> ".$this->itemprop_recipe_cuisine()."</br></br>";
     $html .= "<strong>Cooking Method:</strong> ". $this->itemprop_cooking_method()."</br></br>";
     
+    $html .= "<strong>Prep Time:</strong> ".$this->itemprop_prep_time()."</br></br>";
+    $html .= "<strong>Cook Time:</strong> ".$this->itemprop_cook_time()."</br></br>";
+    $html .= "<strong>Total Time:</strong> ".$this->itemprop_total_time()."</br></br>";
+    $html .= "<strong>Recipe Yield:</strong> ".$this->itemprop_recipe_yield()."</br></br>"; 
+    
     $html .= $this->itemscope_nutrition_open();
     $html .= "<strong>Ingredients:</strong> </br>";
     $count = $this->get_ingredients_count();
@@ -732,10 +783,7 @@ class Recipe extends CreativeWork{
     $html .= $this->itemscope_nutrition_close();
     
     $html .= "</br>";
-    $html .= "<strong>Prep Time:</strong> ".$this->itemprop_prep_time()."</br></br>";
-    $html .= "<strong>Cook Time:</strong> ".$this->itemprop_cook_time()."</br></br>";
-    $html .= "<strong>Total Time:</strong> ".$this->itemprop_total_time()."</br></br>";
-    $html .= "<strong>Recipe Yield:</strong> ".$this->itemprop_recipe_yield()."</br></br>";    
+    
     $html .= "<strong>Recipe Instructions:</strong> </br>".$this->itemprop_recipe_instructions()."</br>";
     $html .= $this->itemscope_close();
     return $html;
@@ -865,6 +913,206 @@ class Recipe extends CreativeWork{
     
     return $thing;
   }
+
+ /*Retrieves an object from the mongo db & turns it into a thing*/
+  function mongo_to_array($conn, $database, $id){
+    
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $mongoID = new mongoId($id);
+      $criteria = array('_id' => $mongoID);
+      
+      /*Execute query*/
+      $cursor = $collection->find($criteria);      
+      
+      /*Checks to see if it can first find the thing by its ID*/
+      if($cursor->count() != 0){
+	/*Converts all the values from the mongo db into this Thing class*/
+	
+	foreach ($cursor as $obj) {
+	 
+	  //print_r($obj);
+	  $this->set_id($obj['_id']);
+
+	  /*Grabs the arrays from mongo and places them into their own variables*/
+	  $name = $obj['name'];
+	  $description = $obj['description'];
+	  $image = $obj['image'];
+	  $url = $obj['url'];
+	  $headline = $obj['headline'];
+	  $author = $obj['author'];
+	  $awards = $obj['awards'];
+	  $keywords = $obj['keywords'];
+	  $datePublished = $obj['datePublished'];
+	  $recipeCategory = $obj['recipeCategory'];
+	  $recipeCuisine = $obj['recipeCuisine'];
+	  $cookingMethod = $obj['cookingMethod'];
+	  $prepTime = $obj['prepTime'];
+	  $cookTime = $obj['cookTime'];
+	  $totalTime = $obj['totalTime'];
+	  $recipeYield = $obj['recipeYield'];
+	  $ingredients = $obj['ingredients'];
+	  $recipeInstructions = $obj['recipeInstructions'];
+
+	  /*Sets the values of Recipe using the arrays above*/
+	  $this->set_name($name['value']);
+	  $this->set_name_tag($name['tag']);
+	  $this->set_name_attributes();//Still working on how to correctly pass through variables
+	  $this->set_name_form($name['form']);
+
+	  $this->set_description($description['value']);
+	  $this->set_description_tag($description['tag']);
+	  $this->set_description_attributes();//Still working on how to correctly pass through variables
+	  $this->set_description_form($description['form']);
+
+	  $this->set_image($image['value']);
+	  $this->set_image_tag($image['tag']);
+	  $this->set_image_attributes();//Still working on how to correctly pass through variables
+	  $this->set_image_form($image['form']);
+	
+	  $this->set_url($url['value']);
+	  $this->set_url_tag($url['tag']);
+	  $this->set_url_attributes();//Still working on how to correctly pass through variables
+	  $this->set_url_form($url['form']);
+	  
+	  $this->set_headline($headline['value']);
+	  $this->set_headline_tag($headline['tag']);
+	  $this->set_headline_attributes();//Still working on how to correctly pass through variables
+	  $this->set_headline_form($headline['form']);
+	  
+	  $this->set_author($author['value']);
+	  $this->set_author_tag($author['tag']);
+	  $this->set_author_attributes();//Still working on how to correctly pass through variables
+	  $this->set_author_form($author['form']);
+	  
+	  $this->set_awards($awards['value']);
+	  $this->set_awards_tag($awards['tag']);
+	  $this->set_awards_attributes();//Still working on how to correctly pass through variables
+	  $this->set_awards_form($awards['form']);
+	  
+	  $this->set_keywords($keywords['value']);
+	  $this->set_keywords_tag($keywords['tag']);
+	  $this->set_keywords_attributes();//Still working on how to correctly pass through variables
+	  $this->set_keywords_form($keywords['form']);
+
+	  $this->set_date_published($datePublished['value']);
+	  $this->set_date_published_tag($datePublished['tag']);
+	  $this->set_date_published_attributes();//Still working on how to correctly pass through variables
+	  $this->set_date_published_form($datePublished['form']);
+	  
+	  $this->set_recipe_category($recipeCategory['value']);
+	  $this->set_recipe_category_tag($recipeCategory['tag']);
+	  $this->set_recipe_category_attributes();//Still working on how to correctly pass through variables
+	  $this->set_recipe_category_form($recipeCategory['form']);
+
+	  $this->set_recipe_cuisine($recipeCuisine['value']);
+	  $this->set_recipe_cuisine_tag($recipeCuisine['tag']);
+	  $this->set_recipe_cuisine_attributes();//Still working on how to correctly pass through variables
+	  $this->set_recipe_cuisine_form($recipeCuisine['form']);
+
+	  $this->set_cooking_method($cookingMethod['value']);
+	  $this->set_cooking_method_tag($cookingMethod['tag']);
+	  $this->set_cooking_method_attributes();//Still working on how to correctly pass through variables
+	  $this->set_cooking_method_form($cookingMethod['form']);
+
+	  $this->set_prep_time($prepTime['value']);
+	  $this->set_prep_time_tag($prepTime['tag']);
+	  $this->set_prep_time_attributes();//Still working on how to correctly pass through variables
+	  $this->set_prep_time_form($prepTime['form']);
+
+	  $this->set_cook_time($cookTime['value']);
+	  $this->set_cook_time_tag($cookTime['tag']);
+	  $this->set_cook_time_attributes();//Still working on how to correctly pass through variables
+	  $this->set_cook_time_form($cookTime['form']);
+
+	  $this->set_total_time($totalTime['value']);
+	  $this->set_total_time_tag($totalTime['tag']);
+	  $this->set_total_time_attributes();//Still working on how to correctly pass through variables
+	  $this->set_total_time_form($totalTime['form']);
+
+	  $this->set_recipe_yield($recipeYield['value']);
+	  $this->set_recipe_yield_tag($recipeYield['tag']);
+	  $this->set_recipe_yield_attributes();//Still working on how to correctly pass through variables
+	  $this->set_recipe_yield_form($recipeYield['form']);
+
+	  $this->set_ingredients($ingredients['value']);
+	  $this->set_ingredients_tag($ingredients['tag']);
+	  $this->set_ingredients_attributes();//Still working on how to correctly pass through variables
+	  $this->set_ingredients_form($ingredients['form']);
+
+	  $this->set_recipe_instructions($recipeInstructions['value']);
+	  $this->set_recipe_instructions_tag($recipeInstructions['tag']);
+	  $this->set_recipe_instructions_attributes();//Still working on how to correctly pass through variables
+	  $this->set_recipe_instructions_form($recipeInstructions['form']);
+	}
+      }
+      
+      else{
+	echo "No such Thing with ID: ".$id;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+    
+  }
+
+ /*Update an object from the mongo db using its id. The Thing must be updated prior to using this function*/
+  function update_to_mongo($conn, $database){
+
+    try {
+      /*Open connection to MongoDB server*/
+      $connection = new Mongo($conn);
+      
+      /*Access DB*/
+      $db = $connection->$database;
+      
+      /*Access Collection*/
+      $collection = $db->items;
+      
+      /*What were searching for*/
+      $mongoID = new mongoId($this->get_id());
+      $criteria = array('_id' => $mongoID);
+
+      /*Checks to see if it can first find the value before attempting to update it*/
+      $cursor = $collection->find($criteria); //Only want to update one value
+      //echo $cursor->count();
+      if($cursor->count() != 0){
+	
+	/*Execute query*/
+	$collection->save($this->to_array(TRUE)); //TRUE means to include ID in array
+	
+	/*Print Update*/
+	//echo "Updated Thing with ID: " .$criteria['_id'];
+
+      }
+      
+      else{
+      echo "No such Thing with ID: ".$id;
+      }
+      
+      /*Disconnect*/
+      $connection->close();
+    } catch (MongoConnectionException $e) {
+      die('Error connecting to MongoDB server');
+    } catch (MongoException $e) {
+      die('Error: ' . $e->getMessage());
+    } 
+  }
+
   /*END MONGODB FUNCTIONS*/
 
   /* End line of entire class*/
